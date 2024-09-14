@@ -1,5 +1,5 @@
 import React from 'react'
-
+import DarkModeBtn from './DarkModeBtn'
 function Navbar() {
   const navList=(
     <>
@@ -41,7 +41,8 @@ function Navbar() {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+     <DarkModeBtn/>
+    <a className="btn">Login</a>
   </div>
 </div>
     </>
