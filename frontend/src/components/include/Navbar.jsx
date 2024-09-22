@@ -1,17 +1,18 @@
 import React from 'react'
 import DarkModeBtn from './DarkModeBtn'
+import logo from "../../../public/image/logo.png"
 function Navbar() {
   const navList=(
     <>
     <li><a href='/'>Home</a></li>
     <li><a href='/course'>Course</a></li>
-    <li><a href='#' onClick={()=>document.getElementById('login_modal').showModal()}>Login</a></li>
+    <li><a href='#' onClick={()=>{document.getElementById('login_modal').showModal()}}>Login</a></li>
     </>
   )
   return (
     <>
-<div className="navbar bg-pink-200">
-  <div className="navbar-start">
+<div className="navbar  bg-sky-300">
+  <div className="navbar-start md:ml-7">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
         <svg
@@ -33,16 +34,16 @@ function Navbar() {
         {navList}
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl" href="/">Srijan</a>
+    <a href="/"><img src={logo} className="h-[50px]"/></a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
     {navList}
     </ul>
   </div>
-  <div className="navbar-end">
+  <div className="navbar-end md:mr-7">
      <DarkModeBtn/>
-    <a className="btn">Login</a>
+    <a className="btn ml-3">Login</a>
   </div>
 </div>
     </>
