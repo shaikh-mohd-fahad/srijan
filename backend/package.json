@@ -4,14 +4,17 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start":"node app",
+    "start": "node app",
     "dev": "nodemon app"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.20.0",
+    "mongoose": "^8.6.4",
     "nodemon": "^3.1.4"
   }
 }
