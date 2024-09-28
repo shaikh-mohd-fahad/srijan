@@ -23,7 +23,7 @@ function LoginModal() {
       // console.log("login",isLogin.data)
       if(isLogin.data.success==true){
         toast.success(isLogin.data.message)
-        navigate('/user');
+        navigate('/user/dashboard');
       }
       else
         toast.error(isLogin.data.message)

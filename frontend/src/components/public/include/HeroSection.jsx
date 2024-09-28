@@ -1,12 +1,6 @@
 import React from "react";
 import Typeddjs from "./Typeddjs";
 import heroimg from "../../../../public/image/hero.png";
-{
-  /* <div className="h-screen"> */
-}
-{
-  /* bg-gradient-to-bl from-rose-100 to-teal-100 */
-}
 
 function HeroSection() {
   return (
