@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios"
-import toast, {Toaster} from 'react-hot-toast';
-
-function UploadCourse() {
-    
+import { useParams } from "react-router-dom";
+import toast from 'react-hot-toast';
+function EditCourse() {
+  const editCourseId=useParams().id;
+    // console.log(editCourseId)
     const [courseInput,setCourseInput]=useState({
         coursename:'',
         description:'',
         price:'',
         trending:''
     })
-
     const handleInput=(e)=>{
       const {name,value}=e.target;
       setCourseInput({
@@ -18,27 +18,38 @@ function UploadCourse() {
         [name]:value
       })
     }
+    //*****update course */
     const handleForm=async (e)=>{
       e.preventDefault();
       try {
-          const insertCourse= await axios.post("http://localhost:3000/admin/uploadcourse",courseInput)
-          console.log(insertCourse.data.success)
-          if(insertCourse.data.success===true){
-            toast.success(insertCourse.data.message)
+          const updateCourse= await axios.put(`http://localhost:3000/admin/updatecourse/${editCourseId}`,courseInput)
+          if(updateCourse.data.success===true){
+            toast.success(updateCourse.data.message)
           }
           else{
-            toast.error(insertCourse.data.message)
+            toast.error(updateCourse.data.message)
           }
       } catch (error) {
-        toast.success(insertCourse.error.data.message)
+        toast.success(updateCourse.error.data.message)
       }
     }
-
+    const fetchEditCourse=async()=>{
+      try {
+        const fetchC=await axios.get("http://localhost:3000/admin/fetcheditcourse/"+editCourseId)
+        console.log("fetched eidt course",fetchC.data)
+        setCourseInput(fetchC.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+useEffect(()=>{
+  fetchEditCourse();
+},[])
   return (
     <>
-    <Toaster/>
+    
       <div className="container mx-auto mt-5 p-5 shadow-md rounded-lg bg-gray-50">
-        <h1 className="text-3xl font-bold text-center">Add New Course</h1>
+        <h1 className="text-3xl font-bold text-center">Update Course</h1>
 
         <form action="" className="flex flex-col" onSubmit={handleForm}>
           <label className="form-control w-full max-w-xs">
@@ -106,4 +117,4 @@ function UploadCourse() {
   );
 }
 
-export default UploadCourse;
+export default EditCourse;

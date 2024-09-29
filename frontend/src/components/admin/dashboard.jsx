@@ -3,7 +3,7 @@ import React from 'react'
 function Dashboard() {
   return (
     <div>
-      admin dashbaoard kjk
+      <a href="/admin/allcourse/" className='btn btn-secondary'>Courses</a>
     </div>
   )
 }
