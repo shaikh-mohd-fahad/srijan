@@ -8,6 +8,7 @@ import UploadCourse from './components/admin/UploadCourse'
 import EditCourse from './components/admin/EditCourse'
 import AllCourse from './components/admin/AllCourse'
 import toast, {Toaster, useToaster} from 'react-hot-toast';
+import Signup from './components/public/Signup'
 function App() {
   return (
     <>
@@ -16,12 +17,13 @@ function App() {
       {/* ********* public routes ******** */}
       <Route path="/" element={<Home/>}/>
       <Route path="/course" element={<Courses/>}/>
+      <Route path="/signup" element={Signup}/>
 
       {/* ********* user routes ******** */}
       <Route path="/user/dashboard" element={<UserDashboard/>}/>
 
       {/* ********* admin routes ******** */}
-      <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
+      <Route path="/admin/" element={<AdminDashboard/>}/>
       <Route path="/admin/uploadcourse" element={<UploadCourse/>}/>
       <Route path="/admin/eidtcourse/:id" element={<EditCourse/>}/>
       <Route path="/admin/allcourse/" element={<AllCourse/>}/>

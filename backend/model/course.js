@@ -4,6 +4,7 @@ const cousreSchema=mongoose.Schema({
     description:String,
     price:Number,
     trending:String,
+    image:String,
 })
 const cousreModel=mongoose.model('course',cousreSchema)
 export {cousreModel}

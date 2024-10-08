@@ -36,7 +36,7 @@ function EditCourse() {
     const fetchEditCourse=async()=>{
       try {
         const fetchC=await axios.get("http://localhost:3000/admin/fetcheditcourse/"+editCourseId)
-        console.log("fetched eidt course",fetchC.data)
+        // console.log("fetched eidt course",fetchC.data)
         setCourseInput(fetchC.data)
       } catch (error) {
         console.log(error)
@@ -51,8 +51,8 @@ useEffect(()=>{
       <div className="container mx-auto mt-5 p-5 shadow-md rounded-lg bg-gray-50">
         <h1 className="text-3xl font-bold text-center">Update Course</h1>
 
-        <form action="" className="flex flex-col" onSubmit={handleForm}>
-          <label className="form-control w-full max-w-xs">
+        <form action="" className="flex flex-col w-[100%] space-y-3" onSubmit={handleForm}>
+          <label className="form-control">
             <div className="label">
               <span className="label-text">Course Name</span>
             </div>
@@ -60,13 +60,13 @@ useEffect(()=>{
               type="text"
               placeholder="Type here"
               name="coursename"
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered "
               value={courseInput.coursename}
               onChange={handleInput}
             />
           </label>
 
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control">
             <div className="label">
               <span className="label-text">Course Description:</span>
             </div>
@@ -80,36 +80,38 @@ useEffect(()=>{
             ></textarea>
           </label>
 
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control">
             <div className="label">
               <span className="label-text">Price</span>
             </div>
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered "
               value={courseInput.price}
               name="price"
               onChange={handleInput}
             />
           </label>
 
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Trending</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
-              value={courseInput.trending}
-              name="trending"
-              onChange={handleInput}
-            />
-          </label>
+          <label className="form-control">
+  <div className="label">
+    <span className="label-text">Trending</span>
+  </div>
+  <select
+    className="input input-bordered"
+    value={courseInput.trending}
+    name="trending"
+    onChange={handleInput}
+  >
+    <option value="">Select</option>
+    <option value="yes" >Yes</option>
+    <option value="no">No</option>
+  </select>
+</label>
 
           <button type="submit" className="btn btn-primary">
-            Add Course
+            UPdate Course
           </button>
         </form>
       </div>

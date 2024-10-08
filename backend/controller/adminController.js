@@ -1,13 +1,18 @@
 import { cousreModel } from "../model/course.js"
 export const insertCourse=async(req,res)=>{
+    console.log("fomr data: ", req.body)
+    console.log("fomr image: ", req.file.filename)
+    const imgName=req.file.filename;
         try {
             const insertCourse=await cousreModel({
                 coursename:req.body.coursename,
                 description:req.body.description,
                 price:req.body.price,
                 trending:req.body.trending,
+                image:imgName,
             })
             const result=insertCourse.save()
+
             if(result){
                 return res.json({success:true,message:"New Course Added"})
             }
@@ -25,6 +30,7 @@ export const fetchCourse=async (req,res)=>{
 }
 export const deleteCourse=async (req,res)=>{
     const result=await cousreModel.findByIdAndDelete(req.params.id)
+    console.log("delete: ",result)
     if(result){
         return res.json({success:true,message:"Course Deleted"})
     }
