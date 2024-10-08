@@ -1,4 +1,6 @@
 import { cousreModel } from "../model/course.js"
+import fs from 'fs'
+import {join} from "path"
 export const insertCourse=async(req,res)=>{
     console.log("fomr data: ", req.body)
     console.log("fomr image: ", req.file.filename)
@@ -30,8 +32,15 @@ export const fetchCourse=async (req,res)=>{
 }
 export const deleteCourse=async (req,res)=>{
     const result=await cousreModel.findByIdAndDelete(req.params.id)
-    console.log("delete: ",result)
     if(result){
+        console.log("delete: ",result.image)
+        const imagePath=join(process.cwd(),`/uploads/site/courseimage/${result.image}`)
+        console.log("image path: ",imagePath)
+        fs.unlink(imagePath,(err)=>{
+            if(err){
+                console.error("Error deleting image file: ", err);
+            }
+        });
         return res.json({success:true,message:"Course Deleted"})
     }
     else{
@@ -48,13 +57,24 @@ export const fetchEidtCourse=async (req,res)=>{
 }
 export const updateCourse=async(req,res)=>{
     try {
-        const updateCourse=await cousreModel.findByIdAndUpdate(req.params.id,{
-            coursename:req.body.coursename,
-            description:req.body.description,
-            price:req.body.price,
-            trending:req.body.trending,
-        })
-        const result=updateCourse.save()
+        const updateCourse=await cousreModel.findById(req.params.id)
+        updateCourse.coursename=req.body.coursename
+        updateCourse.description=req.body.description
+        updateCourse.price=req.body.price
+        updateCourse.trending=req.body.trending
+        if(req.file){
+            // ****** deleting previous image *******
+            const imagePath=join(process.cwd(),`/uploads/site/courseimage/${updateCourse.image}`)
+            console.log("image path: ",imagePath)
+            fs.unlink(imagePath,(err)=>{
+                if(err){
+                    console.error("Error deleting image file: ", err);
+                }
+            });
+            updateCourse.image=req.file.filename
+        }
+
+        const result=await updateCourse.save()
         if(result){
             return res.json({success:true,message:"Course Updated"})
         }

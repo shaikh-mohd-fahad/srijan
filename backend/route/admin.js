@@ -16,7 +16,7 @@ const storage=multer.diskStorage({
 const upload=multer({storage})
 
 admin_route.post("/uploadcourse",upload.single('image'),insertCourse)
-admin_route.put("/updatecourse/:id",updateCourse)
+admin_route.put("/updatecourse/:id",upload.single('image'),updateCourse)
 admin_route.get("/fetchcourse",fetchCourse)
 admin_route.delete("/deletecourse/:id",deleteCourse)
 admin_route.get("/fetcheditcourse/:id",fetchEidtCourse)

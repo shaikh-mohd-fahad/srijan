@@ -42,7 +42,6 @@ function AllCourse() {
                   <td>{data.trending}</td>
                   <td>
                       <Link to={`/admin/eidtcourse/${data._id}`} className="btn btn-info mr-2">Edit</Link>
-                      {/* <a href={`/admin/eidtcourse/${data._id}`} className="btn btn-info">Edit a</a> */}
                       <button className="btn" onClick={() => { handleCourseDelete(data._id) }}>Delete</button>
                   </td>
               </tr>
