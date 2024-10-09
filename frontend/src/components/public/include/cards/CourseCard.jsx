@@ -1,23 +1,28 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
-function CourseCard() {
+function CourseCard({data}) {
+  const shortDescription = data.description.length > 90 
+  ? data.description.slice(0, 90) + '...' 
+  : data.description;
   return (
     <>
       <div className="card lg:card-side m-3 bg-base-100 shadow-xl">
         <figure>
           <img
-            src="https://img.freepik.com/free-photo/top-view-tailor-working-fabric_23-2148586783.jpg?t=st=1726337066~exp=1726340666~hmac=32b8b15ca08ed2f326dc5865f4efb70c1b81024c9b76ad2b7ef17cf44a2fd3dd&w=740"
-            alt="Album"
+            src={`http://localhost:3000/uploads/site/courseimage/${data.image}`}
+            alt={data.coursename} 
+            className='h-[215px]'
           />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">Embroidary</h2>
+          <h2 className="card-title text-blue-500">{data.coursename}</h2>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit,
-            quod!
+          {shortDescription}
           </p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Enroll</button>
+          <div className="card-actions justify-between items-center">
+          <div className="font-bold text-green-600">&#8377;{data.price}</div>
+          <Link className="btn bg-blue-200 hover:bg-blue-300" to="/user/buycourse">Enroll</Link>
           </div>
         </div>
       </div>

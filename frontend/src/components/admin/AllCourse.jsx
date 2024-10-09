@@ -1,13 +1,14 @@
 import React, { useState,useEffect } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link,useLocation  } from 'react-router-dom';
 function AllCourse() {
     const [allCour,setAllCour]=useState([])
     const fetchCourse=async()=>{
         try {
             const fetchC=await axios.get("http://localhost:3000/admin/fetchcourse")
             setAllCour(fetchC.data)
+            console.log("data: ",fetchC.data)
         } catch (error) {
             console.log("error",error)
         }

@@ -1,8 +1,9 @@
 import express from "express"
-import {Home,Course} from "../controller/siteController.js";
+import { siteFetchCourse} from "../controller/siteController.js";
 
 
 const site=express.Router();
-site.get("/",Home)
-site.get("/course",Course)
+//here condition must be like new course, trending etc
+site.get("/fetchcourse/:condition?/:limit?",siteFetchCourse)
+
 export default site;

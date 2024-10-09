@@ -10,14 +10,15 @@ import LearningPath from './include/LearningPath'
 import Temp2 from './include/Temp2'
 import toast, { Toaster } from 'react-hot-toast';
 function Home() {
+
   return (
     <>
     <Toaster/>
     <Navbar/>
     <HeroSection/>
     <div>
-    <div class="bg-white w-full h-auto py-5">
-      <h2 class="text-6xl font-manrope font-black leading-snug text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600"> Pagedone Design System </h2>
+    <div className="bg-white w-full h-auto py-5">
+      <h2 className="text-6xl font-manrope font-black leading-snug text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600"> Pagedone Design System </h2>
       </div>
     </div>
     <LearningPath/>

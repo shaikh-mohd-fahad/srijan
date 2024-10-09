@@ -9,6 +9,7 @@ import EditCourse from './components/admin/EditCourse'
 import AllCourse from './components/admin/AllCourse'
 import toast, {Toaster, useToaster} from 'react-hot-toast';
 import Signup from './components/public/Signup'
+import BuyCourse from './components/user/BuyCourse'
 function App() {
   return (
     <>
@@ -21,6 +22,8 @@ function App() {
 
       {/* ********* user routes ******** */}
       <Route path="/user/dashboard" element={<UserDashboard/>}/>
+      <Route path="/user/buycourse" element={<BuyCourse/>}/>
+      
 
       {/* ********* admin routes ******** */}
       <Route path="/admin/" element={<AdminDashboard/>}/>

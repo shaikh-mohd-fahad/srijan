@@ -2,8 +2,6 @@ import { cousreModel } from "../model/course.js"
 import fs from 'fs'
 import {join} from "path"
 export const insertCourse=async(req,res)=>{
-    console.log("fomr data: ", req.body)
-    console.log("fomr image: ", req.file.filename)
     const imgName=req.file.filename;
         try {
             const insertCourse=await cousreModel({
@@ -33,9 +31,7 @@ export const fetchCourse=async (req,res)=>{
 export const deleteCourse=async (req,res)=>{
     const result=await cousreModel.findByIdAndDelete(req.params.id)
     if(result){
-        console.log("delete: ",result.image)
         const imagePath=join(process.cwd(),`/uploads/site/courseimage/${result.image}`)
-        console.log("image path: ",imagePath)
         fs.unlink(imagePath,(err)=>{
             if(err){
                 console.error("Error deleting image file: ", err);
@@ -65,7 +61,7 @@ export const updateCourse=async(req,res)=>{
         if(req.file){
             // ****** deleting previous image *******
             const imagePath=join(process.cwd(),`/uploads/site/courseimage/${updateCourse.image}`)
-            console.log("image path: ",imagePath)
+            // console.log("image path: ",imagePath)
             fs.unlink(imagePath,(err)=>{
                 if(err){
                     console.error("Error deleting image file: ", err);
