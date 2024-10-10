@@ -5,6 +5,5 @@ const studentSchema=mongoose.Schema({
     useranme:{type:String},
     email:{type:String},
     password:{type:String},
-    dob:{type:String},
 })
 export const studentModel=mongoose.model('student',studentSchema)

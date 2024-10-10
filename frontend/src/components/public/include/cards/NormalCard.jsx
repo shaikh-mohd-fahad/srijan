@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-function NormalCard({data}) {
+function NormalCard({data,btnColor,bgColor,bgHoverClr}) {
   // console.log("probs: ",data)
+  // console.log("hover: ",bgHoverClr)
   const shortDescription = data.description.length > 90 
         ? data.description.slice(0, 90) + '...' 
         : data.description;
@@ -17,14 +18,14 @@ function NormalCard({data}) {
       />
   </figure>
   <div className="card-body">
-    <h2 className="card-title text-slate-600">
+    <h2 className={`card-title ${btnColor?btnColor:'text-slate-600'}`}>
     {data.coursename}
       <div className="badge badge-secondary">NEW</div>
     </h2>
     <p className='text-justify'>{shortDescription}</p>
     <div className="card-actions justify-between items-center">
     <div className="font-bold text-green-600">&#8377;{data.price}</div>
-    <Link className="btn bg-slate-200" to="/user/buycourse">Enroll</Link>
+    <Link className={`btn ${bgColor || 'bg-slate-200'} hover:${bgHoverClr || 'hover:bg-pink-300'}`} to="/user/buycourse">Enroll</Link>
     </div>
   </div>
 </div>
