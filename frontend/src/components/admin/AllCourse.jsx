@@ -2,13 +2,14 @@ import React, { useState,useEffect } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { Link,useLocation  } from 'react-router-dom';
+import Layout from './layout/Layout';
 function AllCourse() {
     const [allCour,setAllCour]=useState([])
     const fetchCourse=async()=>{
         try {
             const fetchC=await axios.get("http://localhost:3000/admin/fetchcourse")
             setAllCour(fetchC.data)
-            console.log("data: ",fetchC.data)
+            // console.log("data: ",fetchC.data)
         } catch (error) {
             console.log("error",error)
         }
@@ -56,7 +57,7 @@ function AllCourse() {
       }
   };
   return (
-    <>
+    <Layout>
         <div className='container mx-auto p-5 m-5 shadow-md rounded-md'>
             <h1 className='text-3xl font-bold text-center'>All Course</h1>
             <a href="/admin/uploadcourse/" className='btn btn-secondary'>Add New Course</a>
@@ -85,7 +86,7 @@ function AllCourse() {
 </div>
         </div>
 
-    </>
+    </Layout>
   )
 }
 

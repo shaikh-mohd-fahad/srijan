@@ -1,14 +1,14 @@
 import React from 'react'
 import Layout from './layout/Layout'
 
-function Dashboard() {
+function Profile() {
   return (
     <Layout>
             <div className='container mx-auto mt-4'>
-            <h1 className='text-2xl font-bold text-center'>Welcome to the Admin Dashboard</h1>
+            <h1 className='text-2xl font-bold text-center'>Welcome to the Admin Profile</h1>
             </div>
     </Layout>
   )
 }
 
-export default Dashboard
+export default Profile

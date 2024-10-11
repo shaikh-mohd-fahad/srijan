@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios"
 import toast, {Toaster} from 'react-hot-toast';
+import Layout from "./layout/Layout";
 
 function UploadCourse() {
     const [imgPreview,setImgPreview]=useState("/public/image/preview.jpg")
@@ -54,7 +55,7 @@ function UploadCourse() {
     }
 
   return (
-    <>
+    <Layout>
     <Toaster/>
       <div className="container mx-auto mt-5 p-5 shadow-md rounded-lg bg-gray-50">
         <h1 className="text-3xl font-bold text-center">Add New Course</h1>
@@ -138,7 +139,7 @@ function UploadCourse() {
           </button>
         </form>
       </div>
-    </>
+    </Layout>
   );
 }
 

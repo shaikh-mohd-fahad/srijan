@@ -1,9 +1,10 @@
 import express from "express"
 import site from "./route/web.js";
-import "./model/db.js"
 import cors from "cors"
 import dotenv from "dotenv"
+import "./model/db.js"
 import "./model/allmodel.js"
+import "./model/admin.js"
 import { stu_route } from "./route/student.js";
 import { admin_route } from "./route/admin.js";
 import {join} from "path"

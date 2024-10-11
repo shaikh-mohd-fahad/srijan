@@ -1,5 +1,5 @@
 import express from "express"
-import { insertCourse,fetchCourse,deleteCourse,fetchEidtCourse,updateCourse } from "../controller/adminController.js";
+import { adminLogin,insertCourse,fetchCourse,deleteCourse,fetchEidtCourse,updateCourse,fetchAllUsers,fetchAllAdmin,insertAdmin,deleteAdmin } from "../controller/adminController.js";
 import multer from "multer"
 import path from "path"
 
@@ -14,10 +14,15 @@ const storage=multer.diskStorage({
     }
 })
 const upload=multer({storage})
-
+admin_route.post("/login",adminLogin)
 admin_route.post("/uploadcourse",upload.single('image'),insertCourse)
 admin_route.put("/updatecourse/:id",upload.single('image'),updateCourse)
 admin_route.get("/fetchcourse",fetchCourse)
 admin_route.delete("/deletecourse/:id",deleteCourse)
 admin_route.get("/fetcheditcourse/:id",fetchEidtCourse)
+admin_route.post("/insertadmin",insertAdmin)
+admin_route.get("/fetchalladmin",fetchAllAdmin)
+admin_route.delete("/deleteadmin/:id",deleteAdmin)
+admin_route.get("/fetchusers",fetchAllUsers)
+
 export {admin_route};

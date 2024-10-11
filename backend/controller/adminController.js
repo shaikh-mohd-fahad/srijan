@@ -1,6 +1,18 @@
+import { adminModel } from "../model/admin.js";
 import { cousreModel } from "../model/course.js"
+import {studentModel} from "../model/student.js"
 import fs from 'fs'
 import {join} from "path"
+export const adminLogin = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    if(email==="fahad@gmail.com" && password==="123"){
+        return res.json({ success: true, message: "You are logged in..." });
+        
+    }else{
+        return res.json({ success: false, message: "Email or Password is wrong" });
+    }
+  };
 export const insertCourse=async(req,res)=>{
     const imgName=req.file.filename;
         try {
@@ -81,4 +93,63 @@ export const updateCourse=async(req,res)=>{
         return res.json({success:false,message:error})
     }
 
+}
+export const fetchAllUsers=async(req,res)=>{
+    try {
+        const allusers=await studentModel.find();
+        if(allusers){
+            return res.json({success:true,data:allusers})
+        }
+    } catch (error) {
+        return res.json({success:false,message:"Server Error"})
+    }
+}
+export const insertAdmin=async (req, res)=>{
+    try {
+        // console.log(req.body)
+        const checkEmail=await adminModel.find({email:req.body.email})
+        if(checkEmail){
+            return res.json({success:false,message : "Email Already Exist"})
+        }
+        const insertAd=await adminModel({
+            username:req.body.username,
+            fullname:req.body.fullname,
+            email:req.body.email,
+            password:req.body.password,
+            adminType:req.body.adminType
+        })
+        const insert =await insertAd.save();
+        if(insert){
+            // console.log("admin added")
+            return res.json({success:true,message : "New Admin Added"})
+        }else{
+            console.log("insert ", insert)
+            return res.json({success:false,message : "New Admin not Added"})
+        }
+    } catch (error) {
+        return res.json({success:false,error})
+    }
+}
+export const fetchAllAdmin=async(req,res)=>{
+    try {
+        const allusers=await adminModel.find();
+        if(allusers){
+            return res.json({success:true,data:allusers})
+        }
+    } catch (error) {
+        return res.json({success:false,message:"Server Error"})
+    }
+}
+export const deleteAdmin=async(req,res)=>{
+    try {
+        const del=await adminModel.findByIdAndDelete(req.params.id)
+        if(del){
+            return res.json({success:true,message:"Admin Deleted Successfully"})
+        }
+        else{
+            return res.json({success:false,message:"Admin not Deleted"})
+        }
+    } catch (error) {
+        return res.json({success:false,message:"Server Error"})
+    }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios"
 import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
+import Layout from "./layout/Layout";
 function EditCourse() {
   const editCourseId=useParams().id;
   const [imgPreview,setImgPreview]=useState(null)
@@ -65,7 +66,7 @@ useEffect(()=>{
   fetchEditCourse();
 },[])
   return (
-    <>
+    <Layout>
     
       <div className="container mx-auto mt-5 p-5 shadow-md rounded-lg bg-gray-50">
         <h1 className="text-3xl font-bold text-center">Update Course</h1>
@@ -149,7 +150,7 @@ useEffect(()=>{
           </button>
         </form>
       </div>
-    </>
+    </Layout>
   );
 }
 
