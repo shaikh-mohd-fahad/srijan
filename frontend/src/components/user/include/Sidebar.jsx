@@ -19,11 +19,13 @@ function Sidebar() {
     <div className={`flex flex-col justify-between h-[90vh] bg-gray-100`}>
     <div>
       <ul className={`m-3`}>
-        <li className={liStyle}><span><FaTachometerAlt size={20} /></span>Dashbard</li>
-        <li className={liStyle}><span><FaUserCircle size={20} /></span>Profile</li>
-        <li className={liStyle}><span><FaBookOpen size={20} /></span>Enrolled Courses</li>
-        <li className={liStyle}><span><MdOutlineTrendingUp size={20} /></span>Progress</li>
-        <li className={liStyle}><span><AiFillSafetyCertificate size={20} /></span>Certification</li>
+        <Link to={'/user/dashboard'}><li className={liStyle}><span><FaTachometerAlt size={20} /></span>Dashbard</li></Link>
+        <Link to={'/user/profile'}><li className={liStyle}><span><FaUserCircle size={20} /></span>Profile</li></Link>
+        <Link to={'/user/enrolledcourses'}><li className={liStyle}><span><FaBookOpen size={20} /></span>Enrolled Courses</li></Link>
+        <Link to={'/user/applyjobs'}><li className={liStyle}><span><FaBookOpen size={20} /></span>Apply Jobs</li></Link>
+        <Link to={'/user/progress'}><li className={liStyle}><span><MdOutlineTrendingUp size={20} /></span>Progress</li></Link>
+        <Link to={'/user/certification'}><li className={liStyle}><span><AiFillSafetyCertificate size={20} /></span>Certification</li></Link>
+        <Link to={'/user/becomeseller'}><li className={liStyle}><span><AiFillSafetyCertificate size={20} /></span>Become Seller</li></Link>
       </ul>
     </div>
     <div>

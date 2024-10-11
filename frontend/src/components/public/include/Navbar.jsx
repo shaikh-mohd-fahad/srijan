@@ -2,19 +2,26 @@ import React from "react";
 import DarkModeBtn from "./DarkModeBtn";
 import logo from "../../../../public/image/logo.png";
 import LoginModal from "./LoginModal";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   
   const navList = (
     <>
       <li>
-        <a href="/">Home</a>
+        <Link to={'/'}>Home</Link>
       </li>
       <li>
-        <a href="/course">Course</a>
+        <Link to={'/course'}>Course </Link>
       </li>
       <li>
-        <a href="">About Us</a>
+        <Link to={'/jobs'}>Jobs </Link>
+      </li>
+      <li>
+        <Link to={'/shops'}>Shops </Link>
+      </li>
+      <li>
+        <Link to={'/aboutus'}>About Us</Link>
       </li>
     </>
   );

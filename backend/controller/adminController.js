@@ -3,16 +3,7 @@ import { cousreModel } from "../model/course.js"
 import {studentModel} from "../model/student.js"
 import fs from 'fs'
 import {join} from "path"
-export const adminLogin = async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    if(email==="fahad@gmail.com" && password==="123"){
-        return res.json({ success: true, message: "You are logged in..." });
-        
-    }else{
-        return res.json({ success: false, message: "Email or Password is wrong" });
-    }
-  };
+
 export const insertCourse=async(req,res)=>{
     const imgName=req.file.filename;
         try {
@@ -97,6 +88,7 @@ export const updateCourse=async(req,res)=>{
 export const fetchAllUsers=async(req,res)=>{
     try {
         const allusers=await studentModel.find();
+        console.log("allusers", allusers)
         if(allusers){
             return res.json({success:true,data:allusers})
         }
@@ -104,10 +96,26 @@ export const fetchAllUsers=async(req,res)=>{
         return res.json({success:false,message:"Server Error"})
     }
 }
+export const adminLogin = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    //temp email =fahad@gmail.com and password=123456
+    try {
+      const isValid = await adminModel.findOne({
+        email: email,
+        password: password,
+      });
+      if (!isValid) {
+        res.json({ success: false, message: "Email or Password is wrong" });
+      }
+      res.json({ success: true, message: "You are logged in..." });
+    } catch (error) {
+      console.log("login error  ", error);
+    }
+  };
 export const insertAdmin=async (req, res)=>{
     try {
-        // console.log(req.body)
-        const checkEmail=await adminModel.find({email:req.body.email})
+        const checkEmail=await adminModel.findOne({email:req.body.email})
         if(checkEmail){
             return res.json({success:false,message : "Email Already Exist"})
         }

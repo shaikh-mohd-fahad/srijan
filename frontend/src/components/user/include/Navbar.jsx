@@ -9,7 +9,7 @@ function Navbar() {
   );
   return (
     <>
-      <div className="navbar  bg-sky-300">
+      <div className="navbar fixed bg-sky-300 z-10">
         <div className="navbar-start md:ml-7">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

@@ -9,12 +9,12 @@ import Temp from './include/temp'
 import LearningPath from './include/LearningPath'
 import Temp2 from './include/Temp2'
 import toast, { Toaster } from 'react-hot-toast';
+import Layout from './layout/Layout'
 function Home() {
 
   return (
-    <>
+    <Layout>
     <Toaster/>
-    <Navbar/>
     <HeroSection/>
     <div>
     <div className="bg-white w-full h-auto py-5">
@@ -27,9 +27,7 @@ function Home() {
     <Banner/>
     <Temp/>
     <Temp2/>
-    <Footer/>
-    
-    </>
+    </Layout>
   )
 }
 

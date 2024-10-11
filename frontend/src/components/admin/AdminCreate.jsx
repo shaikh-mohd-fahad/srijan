@@ -26,6 +26,7 @@ function AdminCreate() {
         "http://localhost:3000/admin/insertadmin",
         adminInput
       );
+      console.log("insert admin",insertAdmin)
       if (insertAdmin.data.success) {
         toast.success(insertAdmin.data.message);
       } else toast.error(insertAdmin.data.message);

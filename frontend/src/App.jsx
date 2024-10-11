@@ -17,6 +17,18 @@ import Payment from './components/admin/Payment'
 import AdminLogin from './components/admin/Login'
 import AllAdmin from './components/admin/AllAdmin'
 import AdminCreate from './components/admin/AdminCreate'
+import Aboutus from './components/public/Aboutus'
+import Shops from './components/public/Shops'
+import Jobs from './components/public/Jobs'
+import PartnerCompany from './components/admin/PartnerCompany'
+import AvailableJobs from './components/admin/AvailableJobs'
+import SellersProduct from './components/admin/SellersProduct'
+import ApplyJobs from './components/user/ApplyJobs'
+import Certification from './components/user/Certification'
+import Progress from './components/user/Progress'
+import BecomeSeller from './components/user/BecomeSelller'
+import EnrolledCourses from './components/user/EnrolledCourses'
+import Profile from './components/user/Profile'
 function App() {
   return (
     <>
@@ -25,12 +37,22 @@ function App() {
       {/* ********* public routes ******** */}
       <Route path="/" element={<Home/>}/>
       <Route path="/course" element={<Courses/>}/>
+      <Route path="/aboutus" element={<Aboutus/>}/>
+      <Route path="/aboutus" element={<Aboutus/>}/>
+      <Route path="/jobs" element={<Jobs/>}/>
+      <Route path="/shops" element={<Shops/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<Signup/>}/>
 
       {/* ********* user routes ******** */}
       <Route path="/user/dashboard" element={<UserDashboard/>}/>
       <Route path="/user/buycourse" element={<BuyCourse/>}/>
+      <Route path="/user/applyjobs" element={<ApplyJobs/>}/>
+      <Route path="/user/certification" element={<Certification/>}/>
+      <Route path="/user/progress" element={<Progress/>}/>
+      <Route path="/user/becomeseller" element={<BecomeSeller/>}/>
+      <Route path="/user/enrolledcourses" element={<EnrolledCourses/>}/>
+      <Route path="/user/profile" element={<Profile/>}/>
       
 
       {/* ********* admin routes ******** */}
@@ -44,6 +66,9 @@ function App() {
       <Route path="/admin/alladmin/" element={<AllAdmin/>}/>
       <Route path="/admin/createadmin/" element={<AdminCreate/>}/>
       <Route path="/admin/payment/" element={<Payment/>}/>
+      <Route path="/admin/partnercompany/" element={<PartnerCompany/>}/>
+      <Route path="/admin/availablejob/" element={<AvailableJobs/>}/>
+      <Route path="/admin/sellersproduct/" element={<SellersProduct/>}/>
     </Routes>
     </>
     

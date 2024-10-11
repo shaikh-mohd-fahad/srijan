@@ -1,6 +1,4 @@
 import React from 'react'
-import Navbar from './include/Navbar'
-import Sidebar from './include/Sidebar'
 import Layout from './layout/Layout'
 function Dashboard() {
   return (

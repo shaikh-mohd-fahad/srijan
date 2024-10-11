@@ -60,7 +60,7 @@ function AllCourse() {
     <Layout>
         <div className='container mx-auto p-5 m-5 shadow-md rounded-md'>
             <h1 className='text-3xl font-bold text-center'>All Course</h1>
-            <a href="/admin/uploadcourse/" className='btn btn-secondary'>Add New Course</a>
+            <Link to={"/admin/uploadcourse/"}className='btn btn-secondary'>Add New Course</Link>
             <div className="overflow-x-auto">
   <table className="table">
     {/* head */}

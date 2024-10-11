@@ -3,6 +3,7 @@ import Navbar from './include/Navbar'
 import Footer from './include/Footer'
 import axios from 'axios'
 import NormalCard from './include/cards/NormalCard'
+import Layout from './layout/Layout'
 
 function Courses() {
   const [allCour,setAllCour]=useState([])
@@ -19,8 +20,7 @@ function Courses() {
         fetchCourse()
     },[])
   return (
-    <>
-    <Navbar/>
+    <Layout>
     <div className='container bg-pink-200 mx-auto p-10 shadow-lg rounded-lg my-10 '>
         <h1 className="text-2xl font-bold text-pink-600 capitalize text-center  mb-7">All <span className='text-black'>Courses</span></h1>
           <div className='flex flex-wrap gap-5'>
@@ -34,8 +34,7 @@ function Courses() {
             }
             </div>
     </div>
-    <Footer/>
-    </>
+    </Layout>
   )
 }
 

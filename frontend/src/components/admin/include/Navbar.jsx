@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../../../public/image/logo.png";
 import profilepic from  "../../../../public/image/profile.jpg";
+import { Link } from "react-router-dom";
 function Navbar() {
   
   const navList = (
@@ -9,7 +10,7 @@ function Navbar() {
   );
   return (
     <>
-      <div className="navbar  bg-sky-300">
+      <div className="navbar fixed bg-sky-300 z-10">
         <div className="navbar-start md:ml-7">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -35,9 +36,9 @@ function Navbar() {
               {navList}
             </ul>
           </div>
-          <a href="/">
+          <Link to={'/'} >
             <img src={logo} className="h-[50px]" />
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navList}</ul>

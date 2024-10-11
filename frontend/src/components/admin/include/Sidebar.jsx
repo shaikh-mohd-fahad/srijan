@@ -25,7 +25,10 @@ function Sidebar() {
       <Link to="/admin/alladmin"><li className={liStyle}><span><FaUsers size={20}/></span>All Admin</li></Link>
         <Link to="/admin/allcourse"><li className={liStyle}><span><FaBookOpen size={20} /></span>All Courses</li></Link>
         <Link to="/admin/allusers"><li className={liStyle}><span><FaUsers size={20}/></span>All Users</li></Link>
-        <Link to="/admin/payment"><li className={liStyle}><span><FaMoneyBillWave  size={24} /> </span>Payment</li></Link>
+        <Link to="/admin/partnercompany"><li className={liStyle}><span><FaUsers size={20}/></span>Partner Companies</li></Link>
+        <Link to="/admin/availablejob"><li className={liStyle}><span><FaUsers size={20}/></span>Available Jobs</li></Link>
+        <Link to="/admin/allusers"><li className={liStyle}><span><FaUsers size={20}/></span>Seller's Products</li></Link>
+        <Link to="/admin/sellersproduct"><li className={liStyle}><span><FaMoneyBillWave  size={24} /> </span>Payment</li></Link>
       </ul>
     </div>
     <div>

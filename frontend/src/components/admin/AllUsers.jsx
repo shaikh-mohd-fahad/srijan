@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './layout/Layout'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function AllUsers() {
     const [allUsrs,setAllUsrs]=useState(null)
     const fetchAllUsers=async()=>{
         try {
           const result=await axios.get("http://localhost:3000/admin/fetchusers");
-        // console.log("reustl ", result.data.data)
+        // console.log("reustl ", result)
         setAllUsrs(result.data.data)
         } catch (error) {
           console.log("error",error)
@@ -38,7 +39,7 @@ function AllUsers() {
     <tbody>
       {/* row 1 */}
       {
-        allUsrs?(
+        allUsrs && allUsrs.length>0?(
           allUsrs.map((data,i)=>{
             return (
               <tr key={data._id}>
@@ -48,8 +49,8 @@ function AllUsers() {
         <td>{data.username}</td>
         <td>{data.email}</td>
         <td>
-            <a href="" className='btn btn-primary m-1'>View</a>
-            <a href="" className='btn btn-secondary m-1'>Edit</a>
+            <Link to="" className='btn btn-primary m-1'>View</Link>
+            <Link to="" className='btn btn-secondary m-1'>Edit</Link>
             <button className='btn btn-muted m-1'> Delete</button>
 
         </td>
@@ -58,7 +59,7 @@ function AllUsers() {
         })
         ):(
           <tr>
-            <td colSpan={4}>No data Found</td>
+            <td colSpan={4} className='text-center font-bold'>No data Found</td>
           </tr>
         )
       }

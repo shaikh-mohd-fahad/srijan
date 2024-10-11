@@ -11,6 +11,7 @@ function AllAdmin() {
       const result = await axios.get(
         "http://localhost:3000/admin/fetchalladmin"
       );
+      console.log("resutl", result)
       setAllUsrs(result.data.data);
     } catch (error) {
       console.log("error", error);
@@ -37,7 +38,7 @@ function AllAdmin() {
     <Layout>
       <div className="container mx-auto mt-4">
         <h1 className="text-2xl font-bold text-center">
-          Welcome to the All Users
+          Welcome to the All Admin
         </h1>
         <div className="overflow-x-auto">
           <Link to={"/admin/createadmin"} className="btn">
@@ -57,7 +58,7 @@ function AllAdmin() {
             </thead>
             <tbody>
               {/* row 1 */}
-              {allUsrs ? (
+              {allUsrs && allUsrs.length>0 ? (
                 allUsrs.map((data, i) => {
                   return (
                     <tr key={data._id}>
@@ -67,12 +68,12 @@ function AllAdmin() {
                       <td>{data.username}</td>
                       <td>{data.email}</td>
                       <td>
-                        <a href="" className="btn btn-primary m-1">
+                        <Link className="btn btn-primary m-1">
                           View
-                        </a>
-                        <a href="" className="btn btn-secondary m-1">
+                        </Link>
+                        <Link className="btn btn-secondary m-1">
                           Edit
-                        </a>
+                        </Link>
                         <button
                           className="btn btn-muted m-1"
                           onClick={() => {
@@ -88,7 +89,7 @@ function AllAdmin() {
                 })
               ) : (
                 <tr>
-                  <td colSpan={4}>No data Found</td>
+                  <td colSpan={4}  className='text-center font-bold'>No data Found</td>
                 </tr>
               )}
             </tbody>
