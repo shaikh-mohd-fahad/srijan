@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { FaTachometerAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
@@ -6,11 +6,14 @@ import { FaUserCircle } from 'react-icons/fa';
 import { FaBookOpen } from 'react-icons/fa';
 import { MdOutlineTrendingUp } from 'react-icons/md';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
+import { AuthContext } from '../../../context/AuthContext';
 
 function Sidebar() {
+  const {logout}=useContext(AuthContext)
   const navigate=useNavigate();
   const handleLogout=()=>{
     console.log("loging out...")
+    logout();
     navigate('/');
   }
   const liStyle="flex gap-4 p-2 cursor-pointer items-center hover:bg-gray-200 rounded-md transition-colors duration-300 ease-in-out"

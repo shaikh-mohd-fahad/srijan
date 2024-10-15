@@ -1,5 +1,5 @@
-import React from 'react'
-import { Routes,Route } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Routes,Route, Navigate } from 'react-router-dom'
 import Home from './components/public/Home'
 import Courses from './components/public/Courses'
 import UserDashboard from './components/user/Dashboard'
@@ -29,23 +29,29 @@ import Progress from './components/user/Progress'
 import BecomeSeller from './components/user/BecomeSelller'
 import EnrolledCourses from './components/user/EnrolledCourses'
 import Profile from './components/user/Profile'
+import { AuthContext } from './context/AuthContext'
+
 function App() {
+  const {token}=useContext(AuthContext);
   return (
     <>
+    
     <Toaster/>
     <Routes>
       {/* ********* public routes ******** */}
       <Route path="/" element={<Home/>}/>
       <Route path="/course" element={<Courses/>}/>
       <Route path="/aboutus" element={<Aboutus/>}/>
-      <Route path="/aboutus" element={<Aboutus/>}/>
       <Route path="/jobs" element={<Jobs/>}/>
       <Route path="/shops" element={<Shops/>}/>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/login" element={!token?<Login/>:<Navigate to="/user/dashboard"/>}/>
+      <Route path="/signup" element={!token?<Signup/>:<Navigate to="/user/dashboard"/>}/>
 
       {/* ********* user routes ******** */}
-      <Route path="/user/dashboard" element={<UserDashboard/>}/>
+      {
+        token?
+        (<>
+        <Route path="/user/dashboard" element={<UserDashboard/>}/>
       <Route path="/user/buycourse" element={<BuyCourse/>}/>
       <Route path="/user/applyjobs" element={<ApplyJobs/>}/>
       <Route path="/user/certification" element={<Certification/>}/>
@@ -53,11 +59,16 @@ function App() {
       <Route path="/user/becomeseller" element={<BecomeSeller/>}/>
       <Route path="/user/enrolledcourses" element={<EnrolledCourses/>}/>
       <Route path="/user/profile" element={<Profile/>}/>
+        </>):
+        (<>
+        <Route path="*" element={<Navigate to="/login"/>}/>
+        </>)
+      }
       
 
       {/* ********* admin routes ******** */}
-      <Route path="/admin/" element={<AdminDashboard/>}/>
       <Route path="/admin/login" element={<AdminLogin/>}/>
+      <Route path="/admin/" element={<AdminDashboard/>}/>
       <Route path="/admin/uploadcourse" element={<UploadCourse/>}/>
       <Route path="/admin/eidtcourse/:id" element={<EditCourse/>}/>
       <Route path="/admin/allcourse/" element={<AllCourse/>}/>

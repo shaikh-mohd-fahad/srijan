@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from "axios"
 import toast, { useToaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 function Login() {
+      //context login
+      const {login}=useContext(AuthContext);
+      const {mainUsr}=useContext(AuthContext);
     const [loginInput,setLoginInput]=useState({
         email:'',
         password:''
@@ -22,6 +26,9 @@ function Login() {
           const isLogin=await axios.post("http://localhost:3000/student/login",loginInput)
         //   console.log("login",isLogin.data)
           if(isLogin.data.success==true){
+            console.log(isLogin.data.user)
+            login(isLogin.data.token)
+            mainUsr(isLogin.data.user)
             toast.success(isLogin.data.message)
             navigate('/user/dashboard');
           }
@@ -30,7 +37,7 @@ function Login() {
           
         } catch (error) {
           console.log('login error',error)
-          toast.error(error.isLogin.data.message)
+          // toast.error(error.isLogin.data.message)
         }
       }
 

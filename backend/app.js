@@ -9,7 +9,7 @@ import { stu_route } from "./route/student.js";
 import { admin_route } from "./route/admin.js";
 import {join} from "path"
 
-dotenv.config()
+dotenv.config();
 const app=express();
 const PORT=process.env.PORT||3000
 

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from "axios"
 import toast, { useToaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 function Signup() {
+  const {login}=useContext(AuthContext)
+  const {mainUsr}=useContext(AuthContext)
     const navigate=useNavigate();
     const [signInput,setSignInput]=useState({
         username:'',
@@ -24,9 +27,11 @@ function Signup() {
   console.log(signInput)
   try {
     const isLogin=await axios.post("http://localhost:3000/student/signup",signInput)
-    // console.log("signup ",isLogin)
+    console.log("signup ",isLogin)
     if(isLogin.data.success==true){
       toast.success(isLogin.data.message)
+      login(isLogin.data.token)
+      mainUsr(isLogin.data.user)
       navigate('/user/dashboard');
     }
     else
