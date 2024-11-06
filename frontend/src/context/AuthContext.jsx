@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [mainUser,setMainUser]=useState(localStorage.getItem('user') || null);
+  const [mainUser,setMainUser]=useState(JSON.parse(localStorage.getItem('user')) || null);
 
   useEffect(() => {
     const handleStorageChange = () => {

@@ -25,7 +25,7 @@ function NormalCard({data,btnColor,bgColor,bgHoverClr}) {
     <p className='text-justify'>{shortDescription}</p>
     <div className="card-actions justify-between items-center">
     <div className="font-bold text-green-600">&#8377;{data.price}</div>
-    <Link className={`btn ${bgColor || 'bg-slate-200'} hover:${bgHoverClr || 'hover:bg-pink-300'}`} to="/user/buycourse">Enroll</Link>
+    <Link className={`btn ${bgColor || 'bg-slate-200'} hover:${bgHoverClr || 'hover:bg-pink-300'}`} to={`/coursedetail/${data._id}`}>Enroll</Link>
     </div>
   </div>
 </div>

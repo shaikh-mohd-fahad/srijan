@@ -20,13 +20,15 @@ export const siteFetchCourse=async (req,res)=>{
             const result=await cousreModel.find().limit(parseInt(limit) || 0)
             return res.json(result)
         }
-
-     
-
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).json({ error: 'Error fetching courses' });
     }
 
     
+}
+export const fetchCourseId=async (req,res)=>{
+    const course=await cousreModel.findById(req.params.id);
+// console.log("id" , course);
+    return res.json({course,success:true})
 }

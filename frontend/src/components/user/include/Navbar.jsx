@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../../../public/image/logo.png";
 import profilepic from  "../../../../public/image/profile.jpg";
+import { AuthContext } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
 function Navbar() {
-  
+  const {mainUser}=useContext(AuthContext)
   const navList = (
     <>
     </>
@@ -42,8 +44,9 @@ function Navbar() {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navList}</ul>
         </div>
-        <div className="navbar-end md:mr-7">
-          <img src={profilepic} className="h-[45px] w-[45px] cursor-pointer rounded-full"/>
+        <div className="navbar-end md:mr-7 gap-3">
+        <Link to="/user/profile" className="font-bold">{mainUser.username}</Link>
+        <Link to="/user/profile"><img src={profilepic} className="h-[45px] w-[45px] cursor-pointer rounded-full"/></Link>
         </div>
       </div>
     </>

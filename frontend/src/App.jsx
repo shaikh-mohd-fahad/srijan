@@ -8,7 +8,6 @@ import UploadCourse from './components/admin/UploadCourse'
 import EditCourse from './components/admin/EditCourse'
 import AllCourse from './components/admin/AllCourse'
 import  {Toaster} from 'react-hot-toast';
-import BuyCourse from './components/user/BuyCourse'
 import Login from './components/public/Login'
 import Signup from './components/public/Signup'
 import AdminProfile from './components/admin/Profile'
@@ -30,6 +29,7 @@ import BecomeSeller from './components/user/BecomeSelller'
 import EnrolledCourses from './components/user/EnrolledCourses'
 import Profile from './components/user/Profile'
 import { AuthContext } from './context/AuthContext'
+import CourseDetail from './components/public/CourseDetail'
 
 function App() {
   const {token}=useContext(AuthContext);
@@ -44,6 +44,7 @@ function App() {
       <Route path="/aboutus" element={<Aboutus/>}/>
       <Route path="/jobs" element={<Jobs/>}/>
       <Route path="/shops" element={<Shops/>}/>
+      <Route path="/coursedetail/:id" element={<CourseDetail/>}/>
       <Route path="/login" element={!token?<Login/>:<Navigate to="/user/dashboard"/>}/>
       <Route path="/signup" element={!token?<Signup/>:<Navigate to="/user/dashboard"/>}/>
 
@@ -52,12 +53,11 @@ function App() {
         token?
         (<>
         <Route path="/user/dashboard" element={<UserDashboard/>}/>
-      <Route path="/user/buycourse" element={<BuyCourse/>}/>
       <Route path="/user/applyjobs" element={<ApplyJobs/>}/>
       <Route path="/user/certification" element={<Certification/>}/>
       <Route path="/user/progress" element={<Progress/>}/>
       <Route path="/user/becomeseller" element={<BecomeSeller/>}/>
-      <Route path="/user/enrolledcourses" element={<EnrolledCourses/>}/>
+      <Route path="/user/enrolledcourses/" element={<EnrolledCourses/>}/>
       <Route path="/user/profile" element={<Profile/>}/>
         </>):
         (<>

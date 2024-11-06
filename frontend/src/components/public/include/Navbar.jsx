@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import DarkModeBtn from "./DarkModeBtn";
 import logo from "../../../../public/image/logo.png";
 import LoginModal from "./LoginModal";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../../context/AuthContext";
+import profilepic from  "../../../../public/image/profile.jpg";
 function Navbar() {
-  
+  const {token}=useContext(AuthContext);
+  const {mainUser}=useContext(AuthContext)
   const navList = (
     <>
       <li>
@@ -62,7 +64,14 @@ function Navbar() {
         </div>
         <div className="navbar-end md:mr-7">
           <DarkModeBtn />
-          <button
+          {
+            token ?
+            <>
+            <Link to="/user/profile" className="font-bold">{mainUser.username}</Link>
+            <Link to="/user/profile"><img src={profilepic} className="h-[45px] w-[45px] cursor-pointer rounded-full"/></Link>
+            </>
+            :
+            <button
             className="btn"
             onClick={() => {
               document.getElementById("login_modal").showModal();
@@ -70,6 +79,7 @@ function Navbar() {
           >
             Login
           </button>
+          }
         </div>
       </div>
       <LoginModal />

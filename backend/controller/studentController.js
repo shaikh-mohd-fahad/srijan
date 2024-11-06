@@ -1,3 +1,5 @@
+import { cousreModel } from "../model/course.js";
+import { enrolledCoursesModel } from "../model/enrolledcourse.js";
 import { studentModel } from "../model/student.js";
 import jwt from "jsonwebtoken"
 const secretKey=process.env.SECRET_KEY || "mohdfahad";
@@ -10,8 +12,6 @@ export const userLogin = async (req, res) => {
       email: email,
       password: password,
     }).select('-password');
-    // console.log("user",isValid)
-    // const user=isValid;
     if (!isValid) {
       res.json({ success: false, message: "Email or Password is wrong" });
     }
@@ -61,4 +61,42 @@ delete userObject.password;
   } catch (error) {
     console.log("login error  ", error);
   }
+  
 };
+export const buyCourse= async(req,res)=>{
+    const course=await cousreModel.findOne({
+      _id:req.params.id
+    });
+    // console.log("course",course)
+  try {
+    const enCourse=enrolledCoursesModel({
+      user_id:req.params.userId,
+      course_id:req.params.id,
+      coursename:course.coursename,
+      description:course.description,
+      price:course.price,
+      image:course.image,
+      purchase_date:"",
+    })
+    enCourse.save();
+    if (enCourse) {
+      return res.json({success:true, message: "New Course is Enrolled" });}
+    else {
+      return res.json({ success: false, message: "Course is not Enrolled" });
+    }
+  } catch (error) {
+    console.log("error "+error)
+  }
+  // console.log("id",req.params.id);
+  // console.log("userid",req.params.userId);
+}
+export const allEnrollCourse=async (req,res)=>{
+    const enrollCourses=await enrolledCoursesModel.find({
+      user_id:req.params.userId,
+    })
+    // console.log(enrollCourses)
+    if(enrollCourses){
+      return res.json({enrollCourses,success:true})
+    }
+    return res.json({enrollCourses,success:false})
+}

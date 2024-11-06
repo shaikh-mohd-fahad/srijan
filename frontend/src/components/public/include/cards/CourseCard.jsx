@@ -22,7 +22,7 @@ function CourseCard({data}) {
           </p>
           <div className="card-actions justify-between items-center">
           <div className="font-bold text-green-600">&#8377;{data.price}</div>
-          <Link className="btn bg-blue-200 hover:bg-blue-300" to="/user/buycourse">Enroll</Link>
+          <Link className="btn bg-blue-200 hover:bg-blue-300" to={`/coursedetail/${data._id}`}>Enroll</Link>
           </div>
         </div>
       </div>

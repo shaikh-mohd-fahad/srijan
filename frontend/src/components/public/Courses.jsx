@@ -9,7 +9,7 @@ function Courses() {
   const [allCour,setAllCour]=useState([])
     const fetchCourse=async()=>{
         try {
-            const fetchC=await axios.get("http://localhost:3000/fetchcourse/new/6")
+            const fetchC=await axios.get("http://localhost:3000/fetchcourse/new/")
             setAllCour(fetchC.data)
             // console.log("data: ",fetchC.data)
         } catch (error) {

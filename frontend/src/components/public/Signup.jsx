@@ -32,6 +32,7 @@ function Signup() {
       toast.success(isLogin.data.message)
       login(isLogin.data.token)
       mainUsr(isLogin.data.user)
+      
       navigate('/user/dashboard');
     }
     else
