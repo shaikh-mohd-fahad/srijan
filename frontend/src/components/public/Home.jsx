@@ -16,11 +16,11 @@ function Home() {
     <Layout>
     <Toaster/>
     <HeroSection/>
-    <div>
+    {/* <div>
     <div className="bg-white w-full h-auto py-5">
       <h2 className="text-6xl font-manrope font-black leading-snug text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600"> Pagedone Design System </h2>
       </div>
-    </div>
+    </div> */}
     <LearningPath/>
     <TrendingCourse/>
     <NewCourse/>

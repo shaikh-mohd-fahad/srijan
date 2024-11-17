@@ -30,6 +30,7 @@ import EnrolledCourses from './components/user/EnrolledCourses'
 import Profile from './components/user/Profile'
 import { AuthContext } from './context/AuthContext'
 import CourseDetail from './components/public/CourseDetail'
+import ViewCourse from './components/user/ViewCourse'
 
 function App() {
   const {token}=useContext(AuthContext);
@@ -58,6 +59,7 @@ function App() {
       <Route path="/user/progress" element={<Progress/>}/>
       <Route path="/user/becomeseller" element={<BecomeSeller/>}/>
       <Route path="/user/enrolledcourses/" element={<EnrolledCourses/>}/>
+      <Route path="/user/viewcourse/:id" element={<ViewCourse/>}/>
       <Route path="/user/profile" element={<Profile/>}/>
         </>):
         (<>

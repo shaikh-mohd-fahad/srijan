@@ -26,8 +26,13 @@ function EnrolledCourses() {
         return enrolledCourse.map((data,i) => (
             <tr key={data._id}>
                 <td>{i+1}</td>
-                <td><img className='h-[100px]' src={`http://localhost:3000/uploads/site/courseimage/${data.image}`} alt="" /></td>
-                <td>{data.coursename}</td>
+                <td>
+                <Link to={`/user/viewcourse/${data.course_id}`}>
+                  <img className='h-[100px]' src={`http://localhost:3000/uploads/site/courseimage/${data.image}`} alt="" />
+                  </Link>
+                  </td>
+                <td><Link to={`/user/viewcourse/${data.course_id}`}>
+                  {data.coursename}</Link></td>
                 <td>{data.description}</td>
                 <td>{data.price}</td>
                 <td>
