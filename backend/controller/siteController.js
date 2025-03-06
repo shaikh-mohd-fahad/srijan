@@ -1,23 +1,23 @@
-import { cousreModel } from "../model/course.js"
+import { courseModel } from "../model/course.js"
 
-export const siteFetchCourse=async (req,res)=>{
+export const siteFetchCourse = async(req, res) => {
 
     try {
         const { condition, limit } = req.params;
         // console.log("condtion: ",condition, limit)
         let query = {};
         if (condition === "new") {
-            const result=await cousreModel.find().limit(parseInt(limit) || 0).sort({ _id: -1 })
+            const result = await courseModel.find().limit(parseInt(limit) || 0).sort({ _id: -1 })
             return res.json(result)
 
         } else if (condition === "trending") {
             query = { trending: "yes" };
-            const result=await cousreModel.find(query).limit(parseInt(limit) || 0)
+            const result = await courseModel.find(query).limit(parseInt(limit) || 0)
             return res.json(result)
-            
+
 
         } else if (condition === "" || !condition) {
-            const result=await cousreModel.find().limit(parseInt(limit) || 0)
+            const result = await courseModel.find().limit(parseInt(limit) || 0)
             return res.json(result)
         }
     } catch (error) {
@@ -25,10 +25,10 @@ export const siteFetchCourse=async (req,res)=>{
         res.status(500).json({ error: 'Error fetching courses' });
     }
 
-    
+
 }
-export const fetchCourseId=async (req,res)=>{
-    const course=await cousreModel.findById(req.params.id);
-// console.log("id" , course);
-    return res.json({course,success:true})
+export const fetchCourseId = async(req, res) => {
+    const course = await courseModel.findById(req.params.id);
+    // console.log("id" , course);
+    return res.json({ course, success: true })
 }

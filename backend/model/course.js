@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-const cousreSchema=mongoose.Schema({
-    coursename:String,
-    description:String,
-    price:Number,
-    trending:String,
-    image:String,
+const courseSchema = mongoose.Schema({
+    coursename: String,
+    description: String,
+    price: Number,
+    trending: String,
+    image: String,
 })
-const cousreModel=mongoose.model('course',cousreSchema)
-export {cousreModel}
+const courseModel = mongoose.model('course', courseSchema)
+export { courseModel }
