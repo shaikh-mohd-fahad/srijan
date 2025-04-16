@@ -1,205 +1,75 @@
-// cd srijan
-// import { adminModel } from "../model/admin.js";
-// import { courseModel } from "../model/course.js";
-
-// import { studentModel } from "../model/student.js"
-// import fs from 'fs'
-// import { join } from "path"
-
-// export const insertCourse = async(req, res) => {
-//     const imgName = req.file.filename;
-//     try {
-//         const insertCourse = await courseModel({
-//             coursename: req.body.coursename,
-//             description: req.body.description,
-//             price: req.body.price,
-//             trending: req.body.trending,
-//             image: imgName,
-//         })
-//         const result = insertCourse.save()
-
-//         if (result) {
-//             return res.json({ success: true, message: "New Course Added" })
-//         } else {
-//             return res.json({ success: false, message: "Course Not Added" })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, message: error })
-//     }
-
-// }
-// export const fetchCourse = async(req, res) => {
-//     const result = await courseModel.find()
-//     return res.json(result)
-// }
-// export const deleteCourse = async(req, res) => {
-//     const result = await courseModel.findByIdAndDelete(req.params.id)
-//     if (result) {
-//         const imagePath = join(process.cwd(), `/uploads/site/courseimage/${result.image}`)
-//         fs.unlink(imagePath, (err) => {
-//             if (err) {
-//                 console.error("Error deleting image file: ", err);
-//             }
-//         });
-//         return res.json({ success: true, message: "Course Deleted" })
-//     } else {
-//         return res.json({ success: false, message: "Course Not Deleted" })
-//     }
-// }
-// export const fetchEidtCourse = async(req, res) => {
-//     const result = await courseModel.findById(req.params.id)
-//     if (result) {
-//         return res.json(result)
-//     } else {
-//         return res.json({ success: false })
-//     }
-// }
-// export const updateCourse = async(req, res) => {
-//     try {
-//         const updateCourse = await courseModel.findById(req.params.id)
-//         updateCourse.coursename = req.body.coursename
-//         updateCourse.description = req.body.description
-//         updateCourse.price = req.body.price
-//         updateCourse.trending = req.body.trending
-//         if (req.file) {
-//             // ****** deleting previous image *******
-//             const imagePath = join(process.cwd(), `/uploads/site/courseimage/${updateCourse.image}`)
-//                 // console.log("image path: ",imagePath)
-//             fs.unlink(imagePath, (err) => {
-//                 if (err) {
-//                     console.error("Error deleting image file: ", err);
-//                 }
-//             });
-//             updateCourse.image = req.file.filename
-//         }
-
-//         const result = await updateCourse.save()
-//         if (result) {
-//             return res.json({ success: true, message: "Course Updated" })
-//         } else {
-//             return res.json({ success: false, message: "Course Not Updated" })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, message: error })
-//     }
-
-// }
-// export const fetchAllUsers = async(req, res) => {
-//     try {
-//         const allusers = await studentModel.find();
-//         console.log("allusers", allusers)
-//         if (allusers) {
-//             return res.json({ success: true, data: allusers })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, message: "Server Error" })
-//     }
-// }
-// export const adminLogin = async(req, res) => {
-//     const email = req.body.email;
-//     const password = req.body.password;
-//     //temp email =fahad@gmail.com and password=123456
-//     try {
-//         const isValid = await adminModel.findOne({
-//             email: email,
-//             password: password,
-//         });
-//         if (!isValid) {
-//             res.json({ success: false, message: "Email or Password is wrong" });
-//         }
-//         res.json({ success: true, message: "You are logged in..." });
-//     } catch (error) {
-//         console.log("login error  ", error);
-//     }
-// };
-// export const insertAdmin = async(req, res) => {
-//     try {
-//         const checkEmail = await adminModel.findOne({ email: req.body.email })
-//         if (checkEmail) {
-//             return res.json({ success: false, message: "Email Already Exist" })
-//         }
-//         const insertAd = await adminModel({
-//             username: req.body.username,
-//             fullname: req.body.fullname,
-//             email: req.body.email,
-//             password: req.body.password,
-//             adminType: req.body.adminType
-//         })
-//         const insert = await insertAd.save();
-//         if (insert) {
-//             // console.log("admin added")
-//             return res.json({ success: true, message: "New Admin Added" })
-//         } else {
-//             console.log("insert ", insert)
-//             return res.json({ success: false, message: "New Admin not Added" })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, error })
-//     }
-// }
-// export const fetchAllAdmin = async(req, res) => {
-//     try {
-//         const allusers = await adminModel.find();
-//         if (allusers) {
-//             return res.json({ success: true, data: allusers })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, message: "Server Error" })
-//     }
-// }
-// export const deleteAdmin = async(req, res) => {
-//     try {
-//         const del = await adminModel.findByIdAndDelete(req.params.id)
-//         if (del) {
-//             return res.json({ success: true, message: "Admin Deleted Successfully" })
-//         } else {
-//             return res.json({ success: false, message: "Admin not Deleted" })
-//         }
-//     } catch (error) {
-//         return res.json({ success: false, message: "Server Error" })
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { adminModel } from "../model/admin.js";
 import { courseModel } from "../model/course.js"; // ✅ Fixed typo in import
+import { EnrolledCoursesModel } from "../model/enrolledcourse.js";
 import { studentModel } from "../model/student.js";
 import fs from "fs";
 import { join } from "path";
 
 // Insert a New Course
-export const insertCourse = async(req, res) => {
+export const insertCourse = async (req, res) => {
     try {
-        const imgName = req.file.filename;
-        const newCourse = new courseModel({
-            coursename: req.body.coursename,
-            description: req.body.description,
-            price: req.body.price,
-            trending: req.body.trending,
-            image: imgName,
-        });
-
-        const result = await newCourse.save(); // ✅ Added await
-        if (result) {
-            return res.json({ success: true, message: "New Course Added" });
-        } else {
-            return res.json({ success: false, message: "Course Not Added" });
-        }
+      const imgName = req.files?.image ? req.files.image[0].filename : null;
+      const videoName = req.files?.video ? req.files.video[0].filename : null;
+  
+      const newCourse = new courseModel({
+        coursename: req.body.coursename,
+        description: req.body.description,
+        price: req.body.price,
+        trending: req.body.trending,
+        image: imgName,
+        video: videoName,
+      });
+  
+      const result = await newCourse.save();
+      if (result) {
+        return res.json({ success: true, message: "New Course Added" });
+      } else {
+        return res.json({ success: false, message: "Course Not Added" });
+      }
     } catch (error) {
-        return res.json({ success: false, message: error.message }); // ✅ Improved error handling
+      return res.json({ success: false, message: error.message });
+    }
+  };
+
+// Update Course
+export const updateCourse = async (req, res) => {
+    try {
+      const updateCourse = await courseModel.findById(req.params.id);
+      if (!updateCourse) {
+        return res.json({ success: false, message: "Course Not Found" });
+      }
+  
+      // Update core fields
+      updateCourse.coursename = req.body.coursename;
+      updateCourse.description = req.body.description;
+      updateCourse.price = req.body.price;
+      updateCourse.trending = req.body.trending;
+  
+      // ✅ Update Image if uploaded
+      if (req.files && req.files.image) {
+        const imagePath = join(process.cwd(), "uploads", "site", "courseimage", updateCourse.image);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath); // Delete old image
+        }
+        updateCourse.image = req.files.image[0].filename;
+      }
+  
+      // ✅ Update Video if uploaded
+      if (req.files && req.files.video) {
+        const videoPath = join(process.cwd(), "uploads", "site", "coursevideo", updateCourse.video);
+        if (fs.existsSync(videoPath)) {
+          fs.unlinkSync(videoPath); // Delete old video
+        }
+        updateCourse.video = req.files.video[0].filename;
+      }
+  
+      await updateCourse.save();
+  
+      return res.json({ success: true, message: "Course Updated Successfully" });
+  
+    } catch (error) {
+      console.error("Update course error:", error);
+      return res.json({ success: false, message: error.message });
     }
 };
 
@@ -249,35 +119,6 @@ export const fetchEditCourse = async(req, res) => { // ✅ Fixed typo in functio
     }
 };
 
-// Update Course
-export const updateCourse = async(req, res) => {
-    try {
-        const updateCourse = await courseModel.findById(req.params.id);
-        if (!updateCourse) {
-            return res.json({ success: false, message: "Course Not Found" });
-        }
-
-        updateCourse.coursename = req.body.coursename;
-        updateCourse.description = req.body.description;
-        updateCourse.price = req.body.price;
-        updateCourse.trending = req.body.trending;
-
-        if (req.file) {
-            const imagePath = join(process.cwd(), "uploads", "site", "courseimage", updateCourse.image);
-            if (fs.existsSync(imagePath)) { // ✅ Check if file exists before deleting
-                fs.unlink(imagePath, (err) => {
-                    if (err) console.error("Error deleting image file: ", err);
-                });
-            }
-            updateCourse.image = req.file.filename;
-        }
-
-        const result = await updateCourse.save();
-        return res.json({ success: true, message: "Course Updated" });
-    } catch (error) {
-        return res.json({ success: false, message: error.message });
-    }
-};
 
 // Fetch All Users
 export const fetchAllUsers = async(req, res) => {
@@ -420,3 +261,33 @@ export const deleteAdmin = async(req, res) => {
         return res.json({ success: false, message: "Server Error" });
     }
 }
+
+
+
+// Controller to handle fetching payments
+export const getPayments = async (req, res) => {
+    try {
+        // Fetch payment records from the enrolledCourses collection
+        const payments = await EnrolledCoursesModel.find();
+
+        // Log payments to check if data is being fetched
+        // console.log("Fetched Payments:", payments);
+
+        // Now, try populating
+        const populatedPayments = await EnrolledCoursesModel.populate(payments, [
+            { path: 'user_id', select: 'fullname username email' },
+            { path: 'course_id', select: 'coursename price' }
+        ]);
+
+        // console.log("Populated Payments:", populatedPayments);
+
+        // Send the response
+        res.status(200).json({ success: true, payments: populatedPayments });
+    } catch (error) {
+        // Log the actual error for better debugging
+        console.error('Error fetching payments:', error);
+
+        // Handle error if fetching fails
+        res.status(500).json({ success: false, message: 'Error fetching payment records', error: error.message });
+    }
+};

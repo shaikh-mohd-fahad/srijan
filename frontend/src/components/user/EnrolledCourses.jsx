@@ -14,7 +14,8 @@ function EnrolledCourses() {
   const fetchECourse = async () => {
     try {
       const fetchC = await axios.get(`http://localhost:3000/student/allenrollcourse/${mainUser._id}`);
-      setEnrolledCourse(fetchC.data.enrollCourses);
+      // console.log("datra",fetchC)
+      setEnrolledCourse(fetchC.data.data);
     } catch (error) {
       console.log("error", error);
     }

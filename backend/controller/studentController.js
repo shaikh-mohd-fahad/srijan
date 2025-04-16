@@ -1,5 +1,5 @@
 import { courseModel } from "../model/course.js";
-import { enrolledCoursesModel } from "../model/enrolledcourse.js";
+import { EnrolledCoursesModel } from "../model/enrolledcourse.js";
 import { studentModel } from "../model/student.js";
 import jwt from "jsonwebtoken"
 const secretKey = process.env.SECRET_KEY || "mohdfahad";
@@ -63,40 +63,59 @@ export const userSignup = async(req, res) => {
     }
 
 };
-export const buyCourse = async(req, res) => {
-    const course = await courseModel.findOne({
-        _id: req.params.id
-    });
-    // console.log("course",course)
+export const buyCourse = async (req, res) => {
     try {
-        const enCourse = enrolledCoursesModel({
-            user_id: req.params.userId,
-            course_id: req.params.id,
+        const { id, userId } = req.params;
+
+        // Fetch course details
+        const course = await courseModel.findById(id);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        // Fetch user details (optional, in case validation needed)
+        const user = await studentModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Create new enrollment
+        const newEnrollment = new EnrolledCoursesModel({
+            user_id: userId,
+            course_id: id,
             coursename: course.coursename,
             description: course.description,
             price: course.price,
             image: course.image,
-            purchase_date: "",
-        })
-        enCourse.save();
-        if (enCourse) {
-            return res.json({ success: true, message: "New Course is Enrolled" });
-        } else {
-            return res.json({ success: false, message: "Course is not Enrolled" });
-        }
+        });
+
+        const savedEnrollment = await newEnrollment.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Course purchased successfully",
+            data: savedEnrollment
+        });
+
     } catch (error) {
-        console.log("error " + error)
+        console.log("error",error)
+        res.status(500).json({ success: false, message: "Purchase failed", error: error.message });
     }
-    // console.log("id",req.params.id);
-    // console.log("userid",req.params.userId);
-}
-export const allEnrollCourse = async(req, res) => {
-    const enrollCourses = await enrolledCoursesModel.find({
-            user_id: req.params.userId,
-        })
-        // console.log(enrollCourses)
-    if (enrollCourses) {
-        return res.json({ enrollCourses, success: true })
+};
+
+// Get all enrolled courses of a user
+export const allEnrollCourse = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const enrollments = await EnrolledCoursesModel.find({ user_id: userId });
+
+        res.status(200).json({
+            success: true,
+            data: enrollments
+        });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to fetch enrolled courses", error: error.message });
     }
-    return res.json({ enrollCourses, success: false })
-}
+};

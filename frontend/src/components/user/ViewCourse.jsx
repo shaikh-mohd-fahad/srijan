@@ -11,53 +11,12 @@ function ViewCourse() {
   const { token } = useContext(AuthContext);
   const { mainUser } = useContext(AuthContext);
   const courseId = useParams().id;
-  const playlist = [
-    {
-      title: "Introduction to Sewing",
-      description: "Learn the basics of sewing, including an overview of essential tools and materials.",
-      thumbnail: "https://via.placeholder.com/150/ff6347/ffffff?text=Introduction",
-    },
-    {
-      title: "Know Your Machine",
-      description: "Explore different types of fabrics and their best uses in sewing projects.",
-      thumbnail: "https://via.placeholder.com/150/4682b4/ffffff?text=Fabric+Types",
-    },
-    {
-      title: "Basic Stitching Techniques",
-      description: "Master simple stitching techniques like straight stitch, zigzag, and backstitch.",
-      thumbnail: "https://via.placeholder.com/150/32cd32/ffffff?text=Basic+Stitches",
-    },
-    {
-      title: "Using a Sewing Machine",
-      description: "A step-by-step guide to setting up and using a sewing machine efficiently.",
-      thumbnail: "https://via.placeholder.com/150/daa520/ffffff?text=Sewing+Machine",
-    },
-    {
-      title: "Sewing Patterns and Marking",
-      description: "Learn to read, use, and create sewing patterns for your projects.",
-      thumbnail: "https://via.placeholder.com/150/6a5acd/ffffff?text=Sewing+Patterns",
-    },
-    {
-      title: "Creating Simple Projects: Tote Bag",
-      description: "Hands-on practice by creating a simple and functional tote bag.",
-      thumbnail: "https://via.placeholder.com/150/ff69b4/ffffff?text=Tote+Bag",
-    },
-    {
-      title: "Finishing Techniques",
-      description: "Learn how to hem, add buttons, and create clean edges for a professional finish.",
-      thumbnail: "https://via.placeholder.com/150/20b2aa/ffffff?text=Finishing",
-    },
-    {
-      title: "Troubleshooting Sewing Problems",
-      description: "Tips and tricks for solving common sewing challenges like thread tension issues.",
-      thumbnail: "https://via.placeholder.com/150/8b4513/ffffff?text=Troubleshooting",
-    },
-  ];
-  
-  
+
   const [course, setCourse] = useState(null);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch Course Details by ID
   const getCourseId = async () => {
     try {
       const response = await axios.get(
@@ -72,8 +31,22 @@ function ViewCourse() {
     }
   };
 
+  // Fetch Other Enrolled Courses
+  const fetchEnrolledCourses = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/student/allenrollcourse/${mainUser._id}`
+      );
+      setEnrolledCourses(response.data.data);
+    } catch (error) {
+      console.error("Error fetching enrolled courses:", error);
+      toast.error("Failed to fetch enrolled courses.");
+    }
+  };
+
   useEffect(() => {
     getCourseId();
+    fetchEnrolledCourses();
   }, []);
 
   if (loading) {
@@ -100,56 +73,51 @@ function ViewCourse() {
     <Layout>
       <section className="flex flex-col md:flex-row p-6">
         <div className="w-full md:w-1/2 p-4">
-        <div className="flex items-center justify-center">
-      <VideoPlayer
-        src="http://localhost:3000/uploads/site/courseVideo/swing.mp4"
-        poster={`http://localhost:3000/uploads/site/courseimage/${course.image}`}
-        title={course.coursename}
-      />
-    </div>
+          <div className="flex items-center justify-center">
+            {/* Fixed Height Video Player */}
+            <div className="video-container" style={{ position: 'relative', width: '100%', height: '400px' }}>
+              <VideoPlayer
+                src={`http://localhost:3000/uploads/site/courseVideo/${course.video}`}
+                poster={`http://localhost:3000/uploads/site/courseimage/${course.image}`}
+                title={course.coursename}
+                className="video-player"
+              />
+            </div>
+          </div>
 
-          {/* <img
-            src={
-              course.image
-                ? `http://localhost:3000/uploads/site/courseimage/${course.image}`
-                : "/placeholder.jpg"
-            }
-            className="w-full h-auto rounded-lg shadow-lg"
-            alt={course.coursename || "Course"}
-          /> */}
-          <h5 className="text-2xl font-bold mb-4">
-            {course.coursename}
-          </h5>
+          <h5 className="text-2xl font-bold mb-4">{course.coursename}</h5>
           <p className="text-gray-700 text-lg mb-4">{course.description}</p>
         </div>
+
+        {/* Other Enrolled Courses Section */}
         <div className="w-full md:w-1/2 p-4">
-          
-          <div>
           <div className="w-full p-4 bg-white shadow-lg overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4 text-gray-700">Up Next</h2>
-        <ul className="space-y-3">
-          {playlist.map((item, index) => (
-            <li
-              key={index}
-              className={`flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-300 cursor-pointer ${
-                index === 1 ? "bg-gray-200" : ""
-              }`}
-            >
-              <img
-                src={`http://localhost:3000/uploads/site/courseimage/${course.image}`} 
-                alt={item.title}
-                className="w-16 h-16 object-cover rounded-lg mr-4"
-              />
-              <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-800">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-gray-500">{item.channel}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+            <h2 className="text-lg font-bold mb-4 text-gray-700">Other Enrolled Courses</h2>
+            <ul className="space-y-4">
+              {enrolledCourses.length > 0 ? (
+                enrolledCourses.map((enrolledCourse) => (
+                  <li
+                    key={enrolledCourse._id}
+                    className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-300 cursor-pointer"
+                    onClick={() => navigate(`/user/viewcourse/${enrolledCourse.course_id}`)}
+                  >
+                    <img
+                      src={`http://localhost:3000/uploads/site/courseimage/${enrolledCourse.image}`}
+                      alt={enrolledCourse.coursename}
+                      className="w-16 h-16 object-cover rounded-lg mr-4"
+                    />
+                    <div className="flex-1">
+                      <h3 className="text-sm font-semibold text-gray-800">
+                        {enrolledCourse.coursename}
+                      </h3>
+                      <p className="text-xs text-gray-500">{enrolledCourse.description}</p>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <p className="text-center text-gray-500">No other enrolled courses found.</p>
+              )}
+            </ul>
           </div>
         </div>
       </section>

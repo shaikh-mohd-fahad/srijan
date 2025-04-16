@@ -5,6 +5,7 @@ const courseSchema = mongoose.Schema({
     price: Number,
     trending: String,
     image: String,
+    video: String, 
 })
 const courseModel = mongoose.model('course', courseSchema)
 export { courseModel }

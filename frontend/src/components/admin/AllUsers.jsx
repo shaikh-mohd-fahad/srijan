@@ -45,7 +45,7 @@ function AllUsers() {
                                 <th className="p-3">Name</th>
                                 <th className="p-3">Username</th>
                                 <th className="p-3">Email</th>
-                                <th className="p-3">Action</th>
+                                {/* <th className="p-3">Action</th> */}
                             </tr>
                         </thead>
                         <tbody ref={tableRef}>
@@ -60,11 +60,11 @@ function AllUsers() {
                                         <td className="p-3 font-semibold text-gray-800">{data.fullname}</td>
                                         <td className="p-3 text-gray-700">{data.username}</td>
                                         <td className="p-3 text-gray-700">{data.email}</td>
-                                        <td className="p-3 flex gap-2">
+                                        {/* <td className="p-3 flex gap-2">
                                             <Link to="" className='p-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-700 transition'><FiEye /></Link>
                                             <Link to="" className='p-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-700 transition'><FiEdit /></Link>
                                             <button className='p-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-700 transition'><FiTrash2 /></button>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))
                             ) : (
