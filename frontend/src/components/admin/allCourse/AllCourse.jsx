@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import Layout from './layout/Layout';
+import Layout from '../layout/Layout';
 import { FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
 
 function AllCourse() {
@@ -53,6 +53,7 @@ function AllCourse() {
         {allCour.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {allCour.map((course) => (
+              <Link to={`/admin/adminviewcourse/${course._id}`}>
               <div
                 key={course._id}
                 className="relative bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300"
@@ -88,6 +89,7 @@ function AllCourse() {
                   </button>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         ) : (

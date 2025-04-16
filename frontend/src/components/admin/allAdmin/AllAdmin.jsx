@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Layout from "./layout/Layout";
+import Layout from "../layout/Layout";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AiFillEye, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import gsap from "gsap";
-import profilepic from '../../../public/image/profile.jpg';
+import profilepic from '../../../../public/image/profile.jpg';
+import ConfirmModal from '../include/ConfirmModal';
 function AllAdmin() {
   const [allUsrs, setAllUsrs] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,24 +26,31 @@ function AllAdmin() {
       setLoading(false);
     }
   };
-
-  const handleDeleteAdmin = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this admin?");
-    if (!confirmDelete) return;
-
-    try {
-      const deleteAdmin = await axios.delete(`http://localhost:3000/admin/deleteadmin/${id}`);
-      if (deleteAdmin.data.success) {
-        fetchAllUsers();
-        toast.success(deleteAdmin.data.message);
-      } else {
-        toast.error(deleteAdmin.data.message);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedAdminId, setSelectedAdminId] = useState(null);
+  
+    const openDeleteModal = (id) => {
+      setSelectedAdminId(id);
+      setIsModalOpen(true);
+    };
+  
+    const handleConfirmDelete = async () => {
+      try {
+        const deleteAdmin = await axios.delete(`http://localhost:3000/admin/deleteadmin/${selectedAdminId}`);
+        if (deleteAdmin.data.success) {
+          fetchAllUsers();
+          toast.success(deleteAdmin.data.message);
+        } else {
+          toast.error(deleteAdmin.data.message);
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        toast.error("Something went wrong");
+      } finally {
+        setIsModalOpen(false);
+        setSelectedAdminId(null);
       }
-    } catch (error) {
-      console.error("Delete error:", error);
-      toast.error("Something went wrong");
-    }
-  };
+    };
 
   return (
     <Layout>
@@ -87,14 +95,14 @@ function AllAdmin() {
                       <td className="border p-3 text-center">{data.username}</td>
                       <td className="border p-3 text-center">{data.email}</td>
                       <td className="border p-3 text-center flex justify-center gap-2">
-                        <Link to={`/admin/view/${data._id}`} className="p-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
+                        <Link to={`/admin/adminview/${data._id}`} className="p-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
                           <AiFillEye size={18} />
                         </Link>
-                        <Link to={`/admin/edit/${data._id}`} className="p-2 bg-yellow-500 text-white rounded-md shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
+                        <Link to={`/admin/adminedit/${data._id}`} className="p-2 bg-yellow-500 text-white rounded-md shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
                           <AiOutlineEdit size={18} />
                         </Link>
                         <button
-                          onClick={() => handleDeleteAdmin(data._id)}
+                          onClick={() => openDeleteModal(data._id)}
                           className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition-transform transform hover:scale-105"
                         >
                           <AiOutlineDelete size={18} />
@@ -112,6 +120,13 @@ function AllAdmin() {
           )}
         </div>
       </div>
+      <ConfirmModal 
+        isOpen={isModalOpen}
+        title="Delete Admin"
+        message="Are you sure you want to delete this admin? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </Layout>
   );
 }

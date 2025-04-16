@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Layout from './layout/Layout'
+import Layout from '../layout/Layout'
 // import profilepic from '../../../public/image/profile.jpg';
 import axios from "axios";
 import { FiUser, FiMail, FiUserCheck, FiHash } from 'react-icons/fi';
 import gsap from 'gsap';
-import profilepic from '../../../public/image/profile.jpg';
+import profilepic from '../../../../public/image/profile.jpg';
 import { useParams } from 'react-router-dom';
 
 // import gsap from "gsap";
-const Profile = () => {
-    // const { mainUser } = useContext(AuthContext);
-    const id="sdfas";
+const AdminView = () => {
+    const { id } = useParams(); 
     const profileRef = useRef(null);
     
         useEffect(() => {
@@ -87,4 +86,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default AdminView

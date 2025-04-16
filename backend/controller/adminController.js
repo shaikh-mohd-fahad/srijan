@@ -336,6 +336,68 @@ export const insertAdmin = async(req, res) => {
     }
 };
 
+// Fetch single Admin
+export const viewadminedit = async(req, res) => {
+    console.log("",req.params)
+    try {
+        const allAdmins = await adminModel.findById(req.params.id);
+        // console.log("admin: ", allAdmins)
+        return res.json({ success: true, data: allAdmins });
+    } catch (error) {
+        // console.log("error", error)
+        return res.json({ success: false, message: "Server Error" });
+    }
+};
+
+export const updateadmin = async(req, res) => {
+    try {
+        const updateAdmin = await adminModel.findById(req.params.id);
+        
+        if (!updateAdmin) {
+            return res.json({ success: false, message: "Admin Not Found" });
+        }
+        console.log("udpate", updateAdmin)
+
+        updateAdmin.fullname = req.body.fullname;
+        updateAdmin.username = req.body.username;
+        updateAdmin.email = req.body.email;
+        if(req.body.password!='')
+            updateAdmin.password = req.body.password;
+        updateAdmin.adminType = req.body.adminType;
+
+        // if (req.file) {
+        //     const imagePath = join(process.cwd(), "uploads", "site", "adminimage", updateAdmin.image);
+        //     if (fs.existsSync(imagePath)) { // Check if file exists before deleting
+        //         fs.unlink(imagePath, (err) => {
+        //             if (err) console.error("Error deleting image file: ", err);
+        //         });
+        //     }
+        //     updateAdmin.image = req.file.filename;
+        // }
+
+        const result = await updateAdmin.save();
+        console.log("res",result)
+        return res.json({ success: true, message: "Admin Updated" });
+    } catch (error) {
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+
+
+export const viewadmin = async(req, res) => {
+    try {
+        const viewAdmin = await adminModel.findById(req.params.id);
+        
+        if (!viewAdmin) {
+            return res.json({ success: false, message: "Admin Not Found" });
+        }
+        return res.json({ data:viewAdmin });
+    } catch (error) {
+        return res.json({ success: false, message: error.message });
+    }
+};
+
 // Fetch All Admins
 export const fetchAllAdmin = async(req, res) => {
     try {
@@ -345,7 +407,6 @@ export const fetchAllAdmin = async(req, res) => {
         return res.json({ success: false, message: "Server Error" });
     }
 };
-
 // Delete an Admin
 export const deleteAdmin = async(req, res) => {
     try {

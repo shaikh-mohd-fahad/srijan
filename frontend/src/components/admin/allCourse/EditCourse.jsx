@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios"
 import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
-import Layout from "./layout/Layout";
+import Layout from "../layout/Layout";
 function EditCourse() {
   const editCourseId=useParams().id;
   const [imgPreview,setImgPreview]=useState(null)

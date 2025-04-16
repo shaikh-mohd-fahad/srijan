@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios"
 import toast, {Toaster} from 'react-hot-toast';
-import Layout from "./layout/Layout";
+import Layout from "../layout/Layout";
 
 function UploadCourse() {
     const [imgPreview,setImgPreview]=useState("/public/image/preview.jpg")

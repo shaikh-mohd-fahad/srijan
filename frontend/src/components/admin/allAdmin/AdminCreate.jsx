@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "./layout/Layout";
+import Layout from "../layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 

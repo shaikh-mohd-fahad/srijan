@@ -4,9 +4,9 @@ import Home from './components/public/Home'
 import Courses from './components/public/Courses'
 import UserDashboard from './components/user/Dashboard'
 import AdminDashboard from './components/admin/dashboard'
-import UploadCourse from './components/admin/UploadCourse'
-import EditCourse from './components/admin/EditCourse'
-import AllCourse from './components/admin/AllCourse'
+import UploadCourse from './components/admin/allCourse/UploadCourse'
+import EditCourse from './components/admin/allCourse/EditCourse'
+import AllCourse from './components/admin/allCourse/AllCourse'
 import  {Toaster} from 'react-hot-toast';
 import Login from './components/public/Login'
 import Signup from './components/public/Signup'
@@ -14,8 +14,8 @@ import AdminProfile from './components/admin/Profile'
 import AllUsers from './components/admin/AllUsers'
 import Payment from './components/admin/Payment'
 import AdminLogin from './components/admin/Login'
-import AllAdmin from './components/admin/AllAdmin'
-import AdminCreate from './components/admin/AdminCreate'
+import AllAdmin from './components/admin/allAdmin/AllAdmin'
+import AdminCreate from './components/admin/allAdmin/AdminCreate'
 import Aboutus from './components/public/Aboutus'
 import Shops from './components/public/Shops'
 import Jobs from './components/public/Jobs'
@@ -31,6 +31,9 @@ import Profile from './components/user/Profile'
 import { AuthContext } from './context/AuthContext'
 import CourseDetail from './components/public/CourseDetail'
 import ViewCourse from './components/user/ViewCourse'
+import AdminView from './components/admin/allAdmin/AdminView'
+import AdminEdit from './components/admin/allAdmin/AdminEdit'
+import AdminViewCourse from './components/admin/allCourse/AdminViewCourse'
 
 function App() {
   const {token}=useContext(AuthContext);
@@ -71,16 +74,35 @@ function App() {
       {/* ********* admin routes ******** */}
       <Route path="/admin/login" element={<AdminLogin/>}/>
       <Route path="/admin/" element={<AdminDashboard/>}/>
-      <Route path="/admin/uploadcourse" element={<UploadCourse/>}/>
-      <Route path="/admin/eidtcourse/:id" element={<EditCourse/>}/>
-      <Route path="/admin/allcourse/" element={<AllCourse/>}/>
       <Route path="/admin/profile/" element={<AdminProfile/>}/>
+
+
+      {/* *********** course ******* */}
+      <Route path="/admin/uploadcourse" element={<UploadCourse/>}/>
+      <Route path="/admin/editcourse/:id" element={<EditCourse/>}/>
+      <Route path="/admin/adminviewcourse/:id" element={<AdminViewCourse/>}/>
+      <Route path="/admin/allcourse/" element={<AllCourse/>}/>
+
+      {/* *********** users ******* */}
       <Route path="/admin/allusers/" element={<AllUsers/>}/>
+
+      {/* *********** other admin ******* */}
       <Route path="/admin/alladmin/" element={<AllAdmin/>}/>
+      <Route path="/admin/adminview/:id" element={<AdminView/>}/>
       <Route path="/admin/createadmin/" element={<AdminCreate/>}/>
+      <Route path="/admin/adminedit/:id" element={<AdminEdit/>}/>
+
+
+      {/* *********** payment ******* */}
       <Route path="/admin/payment/" element={<Payment/>}/>
+
+      {/* *********** partner company ******* */}
       <Route path="/admin/partnercompany/" element={<PartnerCompany/>}/>
+
+      {/* *********** available jobs ******* */}
       <Route path="/admin/availablejob/" element={<AvailableJobs/>}/>
+
+      {/* *********** sellers product ******* */}
       <Route path="/admin/sellersproduct/" element={<SellersProduct/>}/>
     </Routes>
     </>

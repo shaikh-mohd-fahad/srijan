@@ -20,7 +20,7 @@ function Sidebar() {
     <div className={`flex flex-col justify-between h-[90vh] bg-gray-100`}>
     <div>
       <ul className={`m-3`}>
-      <Link to="/admin"><li className={liStyle}><span><FaTachometerAlt size={20} /></span>Dashbard</li></Link>
+      <Link to="/admin"><li className={liStyle}><span><FaTachometerAlt size={20} /></span>Dashboard</li></Link>
       <Link to="/admin/profile"><li className={liStyle}><span><FaUserCircle size={20} /></span>Profile</li></Link>
       <Link to="/admin/alladmin"><li className={liStyle}><span><FaUsers size={20}/></span>All Admin</li></Link>
         <Link to="/admin/allcourse"><li className={liStyle}><span><FaBookOpen size={20} /></span>All Courses</li></Link>
