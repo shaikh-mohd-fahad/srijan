@@ -159,7 +159,7 @@ function ViewCourse() {
       });
       toast.success("Certificate generated successfully!");
       setHasCertificate(true);
-      navigate("/user/certificates");
+      // navigate("/user/certificates");
     } catch (error) {
       console.error("Certificate generation error:", error, error.response?.data, error.response?.status);
       toast.error("Failed to generate certificate.");
@@ -248,7 +248,23 @@ function ViewCourse() {
             <p className="text-sm text-gray-600 mt-2">Progress: {progress.toFixed(1)}%</p>
             {hasCertificate ? (
               <div className="mt-6 text-center">
-                <p className="text-green-600 text-lg font-semibold">Certificate Already Generated</p>
+                <div className="bg-green-100 border border-green-400 rounded-lg p-4 shadow-md flex items-center justify-center space-x-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p className="text-green-700 text-lg font-semibold">Certificate Already Generated</p>
+                </div>
               </div>
             ) : (
               showCertificateButton && (

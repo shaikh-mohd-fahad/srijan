@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "canvas": "^3.1.0",
     "framer-motion": "^12.4.10",
     "gsap": "^3.12.7",
     "lucide-react": "^0.477.0",
