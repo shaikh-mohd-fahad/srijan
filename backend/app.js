@@ -8,6 +8,7 @@ import "./model/admin.js";
 import { stu_route } from "./route/student.js";
 import { admin_route } from "./route/admin.js";
 import { join } from "path";
+import router from "./route/seller.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,8 @@ app.use("/uploads", express.static(join(process.cwd(), "uploads"))); // Serves u
 app.use("/", site);
 app.use("/student", stu_route);
 app.use("/admin", admin_route);
+
+app.use("/seller", router);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

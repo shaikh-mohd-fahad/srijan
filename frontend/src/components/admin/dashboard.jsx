@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { FiUsers, FiBookOpen, FiDollarSign, FiActivity, FiCheckCircle, FiPlusCircle } from 'react-icons/fi';
 import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
     const [stats, setStats] = useState({
@@ -92,8 +93,8 @@ function Dashboard() {
                     <div className='bg-white p-6 rounded-lg shadow-md'>
                         <h2 className='text-xl font-bold mb-4'>Quick Actions</h2>
                         <div className='flex gap-4'>
-                            <button className='bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2'><FiPlusCircle /> Add Course</button>
-                            <button className='bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2'><FiUsers /> Manage Students</button>
+                            <Link to="/admin/uploadcourse"><button className='bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2'><FiPlusCircle /> Add Course</button></Link>
+                            <Link to="admin/allusers"><button className='bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2'><FiUsers /> Manage Students</button></Link>
                         </div>
                     </div>
                 </div>

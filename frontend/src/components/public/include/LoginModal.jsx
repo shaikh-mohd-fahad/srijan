@@ -1,80 +1,5 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from "axios"
-// import toast, { useToaster } from 'react-hot-toast';
-// import { useNavigate } from 'react-router-dom';
-// import Login from '../Login';
-// import Signup from '../Signup';
-// function LoginModal() {
-  
-//   const loginModall=<Login/>
-//   const signupModal= <Signup/>
-//   const [workingModal,setWorkingModal]=useState(null)
-//   const [isLogin,setIsLogin]=useState(true)
-//   useEffect(()=>{
-//     setWorkingModal(loginModall)
-//   },[])
-//   const handleModal=()=>{
-//     if(isLogin){
-//       setWorkingModal(signupModal)
-//       setIsLogin(false)
-//     }else{
-//       setWorkingModal(loginModall)
-//     setIsLogin(true)
-//     }
-//   }
-//   return (
-//     <>
-
-// <dialog id="login_modal" className="modal">
-//   <div className="modal-box ">
-//     {workingModal}
-//     <div className="modal-action  flex justify-between">
-//       {isLogin?(
-//         <h1 onClick={handleModal}>Create New Account</h1>
-//       ):(
-//         <h1 onClick={handleModal}>Already Registered? Login</h1>
-//       )}
-//       <form method="dialog">
-//         <button className="btn">Close</button>
-//       </form>
-//     </div>
-//   </div>
-  
-// </dialog>
-//     </>
-//   )
-// }
-
-// export default LoginModal
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
-import { X, UserPlus, LogIn } from "lucide-react"; // Icons for better UX
+import { X, UserPlus, LogIn } from "lucide-react";
 import Login from "../Login";
 import Signup from "../Signup";
 
@@ -83,33 +8,46 @@ function LoginModal() {
 
   return (
     <dialog id="login_modal" className="modal">
-      <div className="modal-box rounded-lg shadow-xl bg-white p-6 transition-all">
-        {/* Close Button */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-700">
-            {isLogin ? "Welcome Back!" : "Create an Account"}
+      <div className="modal-box rounded-2xl shadow-2xl bg-white p-8 max-w-md w-full transition-all duration-300 ease-in-out border border-gray-200">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-extrabold text-gray-800 tracking-tight">
+            {isLogin ? "Welcome Back 🎉" : "Join Us Today 🚀"}
           </h2>
           <form method="dialog">
-            <button className="p-2 rounded-full hover:bg-gray-200 transition">
+            <button className="p-2 rounded-full bg-gradient-to-tr from-red-400 to-red-600 text-white shadow-md hover:scale-105 transition">
               <X size={20} />
             </button>
           </form>
         </div>
 
-        {/* Dynamic Content: Login or Signup */}
-        {isLogin ? <Login /> : <Signup />}
+        {/* Dynamic Content */}
+        <div className="mb-6">
+          {isLogin ? <Login /> : <Signup />}
+        </div>
 
-        {/* Toggle Between Login and Signup */}
-        <div className="modal-action flex justify-between mt-4">
+        {/* Divider */}
+        <div className="flex items-center my-5">
+          <div className="flex-grow h-px bg-gray-200"></div>
+          <span className="px-4 text-xs text-gray-400 uppercase">or</span>
+          <div className="flex-grow h-px bg-gray-200"></div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-3">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-500 flex items-center gap-2 hover:text-blue-600 transition"
+            className="w-full text-base font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 hover:from-blue-600 hover:to-purple-700 transition-all flex items-center justify-center gap-2"
           >
-            {isLogin ? <UserPlus size={16} /> : <LogIn size={16} />}
+            {isLogin ? <UserPlus size={18} /> : <LogIn size={18} />}
             {isLogin ? "Create New Account" : "Already Registered? Login"}
           </button>
+
           <form method="dialog">
-            <button className="btn btn-neutral">Close</button>
+            <button className="w-full text-base font-semibold bg-gradient-to-r from-gray-700 to-gray-900 text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 hover:from-gray-800 hover:to-black transition-all flex items-center justify-center gap-2">
+              Close
+            </button>
           </form>
         </div>
       </div>
@@ -118,4 +56,3 @@ function LoginModal() {
 }
 
 export default LoginModal;
-

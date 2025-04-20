@@ -30,11 +30,11 @@ function Sidebar() {
             </li>
           </Link>
 
-          <Link to="/admin/profile">
+          {/* <Link to="/admin/profile">
             <li className={`${liStyle} ${isActive("/admin/profile")}`}>
               <FaUserCircle size={20} /> Profile
             </li>
-          </Link>
+          </Link> */}
 
           <Link to="/admin/alladmin">
             <li className={`${liStyle} ${isActive("/admin/alladmin")}`}>

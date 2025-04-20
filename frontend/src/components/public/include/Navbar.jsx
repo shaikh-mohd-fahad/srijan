@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from "react";
 import DarkModeBtn from "./DarkModeBtn";
-import logo from "../../../../public/image/SmallSquarelogoJpg.jpg";
+import logo from "../../../../public/image/logo.png";
 import LoginModal from "./LoginModal";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
@@ -83,7 +83,7 @@ function Navbar() {
         </div>
 
         <div className="navbar-end md:mr-7">
-          <DarkModeBtn />
+          {/* <DarkModeBtn /> */}
           {token ? (
             <>
               <Link to="/user/profile" className="font-bold">{mainUser.username}</Link>
@@ -93,13 +93,14 @@ function Navbar() {
             </>
           ) : (
             <button
-              className="btn"
-              onClick={() => {
-                document.getElementById("login_modal").showModal();
-              }}
-            >
-              Login
-            </button>
+  className="bg-gradient-to-r from-teal-100 via-lime-100 to-pink-100 text-gray-800 py-2 px-6 rounded-full text-lg font-semibold hover:from-teal-200 hover:via-lime-200 hover:to-pink-200 focus:outline-none transition duration-300 ease-in-out hover:shadow-xl active:scale-95"
+  onClick={() => {
+    document.getElementById("login_modal").showModal();
+  }}
+>
+  Login
+</button>
+
           )}
         </div>
       </div>

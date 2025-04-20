@@ -26,7 +26,9 @@ import ApplyJobs from './components/user/ApplyJobs'
 import Certification from './components/user/Certification'
 import Progress from './components/user/Progress'
 import BecomeSeller from './components/user/BecomeSelller'
+import MyProduct from './components/user/MyProduct'
 import EnrolledCourses from './components/user/EnrolledCourses'
+import ListProduct from './components/user/ListProduct'
 import Profile from './components/user/Profile'
 import { AuthContext } from './context/AuthContext'
 import CourseDetail from './components/public/CourseDetail'
@@ -61,6 +63,8 @@ function App() {
       <Route path="/user/certification" element={<Certification/>}/>
       <Route path="/user/progress" element={<Progress/>}/>
       <Route path="/user/becomeseller" element={<BecomeSeller/>}/>
+      <Route path="/user/listproduct" element={<ListProduct/>}/>
+      <Route path="/user/my-products" element={<MyProduct/>}/>
       <Route path="/user/enrolledcourses/" element={<EnrolledCourses/>}/>
       <Route path="/user/viewcourse/:id" element={<ViewCourse/>}/>
       <Route path="/user/profile" element={<Profile/>}/>
