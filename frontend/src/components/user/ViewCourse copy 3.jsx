@@ -19,15 +19,13 @@ function ViewCourse() {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showCertificateButton, setShowCertificateButton] = useState(false);
   const [progressFetched, setProgressFetched] = useState(false);
-  const [hasCertificate, setHasCertificate] = useState(false);
 
   const videoRef = useRef(null);
 
-  // Check if user is authenticated and load data
+  // Check if user is authenticated
   useEffect(() => {
     console.log("Course ID:", courseId);
     console.log("Token:", token);
@@ -43,7 +41,6 @@ function ViewCourse() {
     getCourseById();
     fetchEnrolledCourses();
     fetchProgress();
-    checkCertificate();
   }, [courseId, token, mainUser]);
 
   // Fetch course details
@@ -87,17 +84,6 @@ function ViewCourse() {
     }
   };
 
-  // Check if user has certificate
-  const checkCertificate = async () => {
-    try {
-      const { data } = await api.get(`/student/checkcertificate/${mainUser._id}/${courseId}`);
-      setHasCertificate(data.hasCertificate || false);
-    } catch (error) {
-      console.error("Error checking certificate:", error, error.response?.data, error.response?.status);
-      toast.error("Failed to check certificate status.");
-    }
-  };
-
   // Video playback handlers
   const handlePlay = () => {
     if (!progressFetched) {
@@ -107,18 +93,16 @@ function ViewCourse() {
     if (videoRef.current) {
       videoRef.current.play();
       setIsPlaying(true);
-      setHasPlayedOnce(true);
     } else {
       setIsPlaying(true);
-      setHasPlayedOnce(true);
     }
   };
 
   const handlePause = () => {
     if (videoRef.current) {
       videoRef.current.pause();
-      setIsPlaying(false);
     }
+    setIsPlaying(false);
   };
 
   const handleTimeUpdate = async () => {
@@ -158,7 +142,6 @@ function ViewCourse() {
         courseId,
       });
       toast.success("Certificate generated successfully!");
-      setHasCertificate(true);
       navigate("/user/certificates");
     } catch (error) {
       console.error("Certificate generation error:", error, error.response?.data, error.response?.status);
@@ -193,11 +176,11 @@ function ViewCourse() {
         <div className="w-full md:w-1/2 p-4">
           <div className="flex items-center justify-center">
             <div className="w-full max-w-3xl relative rounded-xl overflow-hidden shadow-lg">
-              {!hasPlayedOnce && !isPlaying && progressFetched ? (
+              {!isPlaying || !progressFetched ? (
                 <div
-                  className="relative cursor-pointer"
-                  onClick={handlePlay}
-                  aria-label="Play course video"
+                  className={`relative ${progressFetched ? "cursor-pointer" : "cursor-not-allowed"}`}
+                  onClick={progressFetched ? handlePlay : null}
+                  aria-label={progressFetched ? "Play course video" : "Video loading"}
                 >
                   <img
                     src={`http://localhost:3000/uploads/site/courseimage/${course.image}`}
@@ -205,16 +188,20 @@ function ViewCourse() {
                     className="w-full object-cover aspect-video"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                    <div className="bg-white rounded-full p-4 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-10 w-10 text-gray-800"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
+                    {progressFetched ? (
+                      <div className="bg-white rounded-full p-4 shadow-lg">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-10 w-10 text-gray-800"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <p className="text-white text-lg">Loading video...</p>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -229,11 +216,6 @@ function ViewCourse() {
                   onPause={handlePause}
                 />
               )}
-              {!progressFetched && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                  <p className="text-white text-lg">Loading video...</p>
-                </div>
-              )}
             </div>
           </div>
 
@@ -246,21 +228,15 @@ function ViewCourse() {
               />
             </div>
             <p className="text-sm text-gray-600 mt-2">Progress: {progress.toFixed(1)}%</p>
-            {hasCertificate ? (
+            {showCertificateButton && (
               <div className="mt-6 text-center">
-                <p className="text-green-600 text-lg font-semibold">Certificate Already Generated</p>
+                <button
+                  onClick={handleGenerateCertificate}
+                  className="bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow hover:bg-green-700 transition"
+                >
+                  Get Your Certificate
+                </button>
               </div>
-            ) : (
-              showCertificateButton && (
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={handleGenerateCertificate}
-                    className="bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow hover:bg-green-700 transition"
-                  >
-                    Get Your Certificate
-                  </button>
-                </div>
-              )
             )}
           </div>
 

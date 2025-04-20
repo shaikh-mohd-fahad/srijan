@@ -66,7 +66,7 @@ function EnrolledCourses() {
                     </td>
                     <td className="py-3 px-4 text-gray-700">{data.description}</td>
                     <td className="py-3 px-4 font-bold text-green-600">₹{data.price}</td>
-                    <td className="py-3 px-4 flex gap-2 justify-center">
+                    <td className="py-3 px-4 flex gap-2 justify-center items-center">
                       
                       <button className="bg-red-500 text-white px-3 py-1 rounded flex items-center gap-1 hover:bg-red-700 transition">
                         <FiTrash2 /> Remove

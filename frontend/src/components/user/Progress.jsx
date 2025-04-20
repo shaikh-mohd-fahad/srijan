@@ -1,51 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 import Layout from './layout/Layout';
-import { motion } from 'framer-motion';
-import { FaCheckCircle } from 'react-icons/fa';
 
-// Fake user progress data
-const fakeProgressData = [
-  { id: 1, course: "Sewing Basics", progress: 80 },
-  { id: 2, course: "Home Decor Crafts", progress: 60 },
-  { id: 3, course: "Pottery and Clay Modeling", progress: 40 },
-  { id: 4, course: "Bag Making", progress: 90 },
-];
+function Porgress() {
+  const { mainUser } = useContext(AuthContext);
+  const [progressData, setProgressData] = useState([]);
 
-function Progress() {
+  const fetchProgress = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/student/progress/${mainUser._id}`);
+      console.log("res",response)
+      setProgressData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching progress data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProgress();
+  }, []);
+
   return (
     <Layout>
-      <div className="container mx-auto p-5">
-        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">My Progress</h1>
-
-        <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
-          {fakeProgressData.map((course, index) => (
-            <motion.div 
-              key={course.id} 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="mb-5"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="font-semibold text-lg text-gray-700">{course.course}</h3>
-                {course.progress === 100 ? (
-                  <FaCheckCircle className="text-green-500 text-xl" />
-                ) : (
-                  <span className="text-gray-500 text-sm">{course.progress}% Completed</span>
-                )}
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">My Course Progress</h2>
+        <ul className="space-y-4">
+          {progressData.map((item) => (
+            <li key={item._id} className="p-4 bg-white shadow rounded">
+              <h3 className="font-semibold">{item.course_id.coursename}</h3>
+              <div className="w-full bg-gray-200 h-4 rounded overflow-hidden mt-2">
+                <div
+                  className="bg-blue-500 h-full"
+                  style={{ width: `${item.progress_percentage}%` }}
+                />
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div 
-                  className={`h-4 rounded-full transition-all duration-500 ${course.progress === 100 ? "bg-green-500" : "bg-blue-500"}`} 
-                  style={{ width: `${course.progress}%` }}
-                ></div>
-              </div>
-            </motion.div>
+              <p className="text-sm text-gray-600 mt-1">
+                {item.progress_percentage.toFixed(2)}% completed
+              </p>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </Layout>
   );
 }
 
-export default Progress;
+export default Porgress;

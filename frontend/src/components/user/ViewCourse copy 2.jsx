@@ -5,11 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
-// Create axios instance with default baseURL
-const api = axios.create({
-  baseURL: "http://localhost:3000",
-});
-
 function ViewCourse() {
   const navigate = useNavigate();
   const { token, mainUser } = useContext(AuthContext);
@@ -19,40 +14,23 @@ function ViewCourse() {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showCertificateButton, setShowCertificateButton] = useState(false);
-  const [progressFetched, setProgressFetched] = useState(false);
-  const [hasCertificate, setHasCertificate] = useState(false);
+  const [videoDuration, setVideoDuration] = useState(0);
 
   const videoRef = useRef(null);
+  const intervalRef = useRef(null);
 
-  // Check if user is authenticated and load data
-  useEffect(() => {
-    console.log("Course ID:", courseId);
-    console.log("Token:", token);
-    if (!token || !mainUser?._id) {
-      toast.error("Please log in to view this course.");
-      navigate("/login");
-      return;
-    }
-
-    // Set Authorization header for all API calls
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-    getCourseById();
-    fetchEnrolledCourses();
-    fetchProgress();
-    checkCertificate();
-  }, [courseId, token, mainUser]);
+  const [showCertificateButton, setShowCertificateButton] = useState(false);
 
   // Fetch course details
   const getCourseById = async () => {
     try {
-      const { data } = await api.get(`/fetchcourseid/${courseId}`);
-      setCourse(data.course);
+      const response = await axios.get(
+        `http://localhost:3000/fetchcourseid/${courseId}`
+      );
+      setCourse(response.data.course);
     } catch (error) {
-      console.error("Error fetching course:", error, error.response?.data, error.response?.status);
+      console.error("Error fetching course:", error);
       toast.error("Failed to fetch course details.");
     } finally {
       setLoading(false);
@@ -62,109 +40,99 @@ function ViewCourse() {
   // Fetch enrolled courses
   const fetchEnrolledCourses = async () => {
     try {
-      const { data } = await api.get(`/student/allenrollcourse/${mainUser._id}`);
-      console.log("Enrolled Courses:", data.data);
-      setEnrolledCourses(data.data);
+      const response = await axios.get(
+        `http://localhost:3000/student/allenrollcourse/${mainUser._id}`
+      );
+      setEnrolledCourses(response.data.data);
     } catch (error) {
-      console.error("Error fetching enrolled courses:", error, error.response?.data, error.response?.status);
+      console.error("Error fetching enrolled courses:", error);
       toast.error("Failed to fetch enrolled courses.");
     }
   };
 
-  // Fetch progress for the course
-  const fetchProgress = async () => {
-    try {
-      const { data } = await api.get(`/student/getprogress/${mainUser._id}/${courseId}`);
-      setProgress(data.progress || 0);
-      if (data.progress >= 95) {
-        setShowCertificateButton(true);
-      }
-    } catch (error) {
-      console.error("Error fetching progress:", error, error.response?.data, error.response?.status);
-      toast.error("Failed to fetch progress.");
-    } finally {
-      setProgressFetched(true);
+  useEffect(() => {
+    getCourseById();
+    fetchEnrolledCourses();
+  }, [courseId]);
+
+  // Retrieve stored progress
+  const loadProgressFromLocalStorage = () => {
+    const savedProgress = localStorage.getItem(`progress_${courseId}`);
+    if (savedProgress) {
+      setProgress(parseFloat(savedProgress));
     }
   };
 
-  // Check if user has certificate
-  const checkCertificate = async () => {
-    try {
-      const { data } = await api.get(`/student/checkcertificate/${mainUser._id}/${courseId}`);
-      setHasCertificate(data.hasCertificate || false);
-    } catch (error) {
-      console.error("Error checking certificate:", error, error.response?.data, error.response?.status);
-      toast.error("Failed to check certificate status.");
+  useEffect(() => {
+    if (courseId) {
+      loadProgressFromLocalStorage();
     }
-  };
+  }, [courseId]);
 
-  // Video playback handlers
   const handlePlay = () => {
-    if (!progressFetched) {
-      toast.error("Please wait, loading video...");
-      return;
-    }
-    if (videoRef.current) {
-      videoRef.current.play();
-      setIsPlaying(true);
-      setHasPlayedOnce(true);
-    } else {
-      setIsPlaying(true);
-      setHasPlayedOnce(true);
-    }
+    setIsPlaying(true);
+    videoRef.current.play();
   };
 
   const handlePause = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+    setIsPlaying(false);
+    videoRef.current.pause();
   };
 
-  const handleTimeUpdate = async () => {
+  const handleTimeUpdate = () => {
     const video = videoRef.current;
     if (video && video.duration) {
       const currentPercentage = (video.currentTime / video.duration) * 100;
       setProgress(currentPercentage);
+      localStorage.setItem(`progress_${courseId}`, video.currentTime);
 
-      try {
-        await api.post("/student/updateprogress", {
-          userId: mainUser._id,
-          courseId,
-          progress: currentPercentage,
-        });
-
-        if (currentPercentage >= 95 && !showCertificateButton) {
-          setShowCertificateButton(true);
-        }
-      } catch (error) {
-        console.error("Error updating progress:", error, error.response?.data, error.response?.status);
-        toast.error("Failed to update progress.");
+      if (currentPercentage >= 100) {
+        setShowCertificateButton(true);
       }
     }
   };
 
   const handleLoadedMetadata = () => {
-    if (videoRef.current && progressFetched) {
-      const startTime = (progress / 100) * videoRef.current.duration;
-      videoRef.current.currentTime = startTime || 0;
+    const video = videoRef.current;
+    if (video) {
+      setVideoDuration(video.duration);
+      video.currentTime = progress;
     }
   };
 
   const handleGenerateCertificate = async () => {
     try {
-      await api.post(`/student/generatecertificate`, {
-        userId: mainUser._id,
-        courseId,
-      });
+      await axios.post(
+        `http://localhost:5000/api/certificates/generate`,
+        {
+          courseId,
+          userId: mainUser._id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       toast.success("Certificate generated successfully!");
-      setHasCertificate(true);
       navigate("/user/certificates");
     } catch (error) {
-      console.error("Certificate generation error:", error, error.response?.data, error.response?.status);
+      console.error("Certificate generation error:", error);
       toast.error("Failed to generate certificate.");
     }
   };
+
+  // Auto-save video progress every 5 seconds
+  useEffect(() => {
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => {
+        if (videoRef.current) {
+          localStorage.setItem(`progress_${courseId}`, videoRef.current.currentTime);
+        }
+      }, 5000);
+    } else {
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [isPlaying, courseId]);
 
   if (loading) {
     return (
@@ -193,11 +161,10 @@ function ViewCourse() {
         <div className="w-full md:w-1/2 p-4">
           <div className="flex items-center justify-center">
             <div className="w-full max-w-3xl relative rounded-xl overflow-hidden shadow-lg">
-              {!hasPlayedOnce && !isPlaying && progressFetched ? (
+              {!isPlaying ? (
                 <div
                   className="relative cursor-pointer"
                   onClick={handlePlay}
-                  aria-label="Play course video"
                 >
                   <img
                     src={`http://localhost:3000/uploads/site/courseimage/${course.image}`}
@@ -222,17 +189,11 @@ function ViewCourse() {
                   ref={videoRef}
                   src={`http://localhost:3000/uploads/site/coursevideo/${course.video}`}
                   controls
-                  autoPlay={isPlaying}
                   className="w-full aspect-video"
                   onTimeUpdate={handleTimeUpdate}
                   onLoadedMetadata={handleLoadedMetadata}
                   onPause={handlePause}
                 />
-              )}
-              {!progressFetched && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                  <p className="text-white text-lg">Loading video...</p>
-                </div>
               )}
             </div>
           </div>
@@ -245,22 +206,18 @@ function ViewCourse() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="text-sm text-gray-600 mt-2">Progress: {progress.toFixed(1)}%</p>
-            {hasCertificate ? (
+            <p className="text-sm text-gray-600 mt-2">
+              Progress: {progress.toFixed(1)}%
+            </p>
+            {showCertificateButton && (
               <div className="mt-6 text-center">
-                <p className="text-green-600 text-lg font-semibold">Certificate Already Generated</p>
+                <button
+                  onClick={handleGenerateCertificate}
+                  className="bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow hover:bg-green-700 transition"
+                >
+                  Get Your Certificate
+                </button>
               </div>
-            ) : (
-              showCertificateButton && (
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={handleGenerateCertificate}
-                    className="bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow hover:bg-green-700 transition"
-                  >
-                    Get Your Certificate
-                  </button>
-                </div>
-              )
             )}
           </div>
 
@@ -272,14 +229,18 @@ function ViewCourse() {
         {/* Enrolled Courses Section */}
         <div className="w-full md:w-1/2 p-4">
           <div className="w-full p-4 bg-white shadow-lg overflow-y-auto max-h-[600px] rounded-lg">
-            <h2 className="text-lg font-bold mb-4 text-gray-700">Other Enrolled Courses</h2>
+            <h2 className="text-lg font-bold mb-4 text-gray-700">
+              Other Enrolled Courses
+            </h2>
             <ul className="space-y-4">
               {enrolledCourses.length > 0 ? (
                 enrolledCourses.map((enrolledCourse) => (
                   <li
                     key={enrolledCourse._id}
                     className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-300 cursor-pointer"
-                    onClick={() => navigate(`/user/viewcourse/${enrolledCourse.course_id}`)}
+                    onClick={() =>
+                      navigate(`/user/viewcourse/${enrolledCourse.course_id}`)
+                    }
                   >
                     <img
                       src={`http://localhost:3000/uploads/site/courseimage/${enrolledCourse.image}`}
@@ -290,12 +251,16 @@ function ViewCourse() {
                       <h3 className="text-sm font-semibold text-gray-800">
                         {enrolledCourse.coursename}
                       </h3>
-                      <p className="text-xs text-gray-500">{enrolledCourse.description}</p>
+                      <p className="text-xs text-gray-500">
+                        {enrolledCourse.description}
+                      </p>
                     </div>
                   </li>
                 ))
               ) : (
-                <p className="text-center text-gray-500">No other enrolled courses found.</p>
+                <p className="text-center text-gray-500">
+                  No other enrolled courses found.
+                </p>
               )}
             </ul>
           </div>

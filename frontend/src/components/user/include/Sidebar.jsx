@@ -25,7 +25,7 @@ function Sidebar() {
     { path: '/user/dashboard', label: 'Dashboard', icon: <FaTachometerAlt size={20} /> },
     { path: '/user/profile', label: 'Profile', icon: <FaUserCircle size={20} /> },
     { path: '/user/enrolledcourses', label: 'Enrolled Courses', icon: <FaBookOpen size={20} /> },
-    { path: '/user/applyjobs', label: 'Apply Jobs', icon: <FaBookOpen size={20} /> },
+    // { path: '/user/applyjobs', label: 'Apply Jobs', icon: <FaBookOpen size={20} /> },
     { path: '/user/progress', label: 'Progress', icon: <MdOutlineTrendingUp size={20} /> },
     { path: '/user/certification', label: 'Certification', icon: <AiFillSafetyCertificate size={20} /> },
     { path: '/user/becomeseller', label: 'Become Seller', icon: <AiFillSafetyCertificate size={20} /> },
